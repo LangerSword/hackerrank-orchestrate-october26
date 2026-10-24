@@ -19,7 +19,10 @@ Screenshot-only flips are now auditable:
   "user_20 - analytics_7438 - darwish.omar@icloud.com".
 - `case_39 data_flow_1121` — tied by `user_14`, OCR shows the connector console
   row `data_flow_1121`.
-These three rest on OCR; the OCR text is legible for the decisive tokens.
+These three rest on the digest. **Retracted:** the claim that OCR is legible
+for the decisive tokens was wrong for case_39 (no user_14 in OCR). Vision
+re-check in `docs/AUDIT_ROUND8.md` confirms data_flow_1121 / jain.aditi
+(user_14) / Continuous in the image; OCR fidelity, not the fact, was at fault.
 
 Cropping is fixed: full records are printed. The earlier JSON/SQL cut-offs
 (e.g. case_224, case_147, case_279, case_531, case_160, case_460, case_459) are

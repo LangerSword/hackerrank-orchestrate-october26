@@ -349,7 +349,7 @@ why: the engine reads `PRESENT` on support_2967; disabling this rule removes the
 
 - status: INCOMPLETE; requested_at: 2026-07-04T07:00:00+00:00; audit_at: 2026-08-02T07:00:00+00:00
 - subject: user_159; emails=['noah-sullivan83@gmail.com', 'noah-sullivan@gmail.com']; phones=['16465550159']; hashes=['1763309b894355fa93694fc0cbfdba4cf4c72f373f9ca7471ec9f6e354138475', '9f380df55818348191a8a8e8b2da5baeedd4ca140e987939972eee4154cab492']
-- tied by: [('9f380df55818348191a8a8e8b2da5baeedd4ca140e987939972eee4154cab492', 'hash', 'exact'), ('user_159', 'user_id', 'exact'), ('p:16465550159', 'phone', 'exact'), ('noah-sullivan@gmail.com', 'email', 'exact')]
+- tied by: [('9f380df55818348191a8a8e8b2da5baeedd4ca140e987939972eee4154cab492', 'hash', 'exact'), ('p:16465550159', 'phone', 'exact'), ('user_159', 'user_id', 'exact'), ('noah-sullivan@gmail.com', 'email', 'exact')]
 - deciding fact observed_at: 2026-08-02T07:00:00+00:00; file: evidence/databases/customer_data_read_replica_20260802.sql
 - finding: REPORT_EXPOSED_PII analytics_platform analytics_2008 state=PRESENT
 - rule under test: policy: ANALYTICS_PROFILE is ANONYMIZE, not RETAIN
@@ -428,7 +428,7 @@ why: the engine reads `PRESENT` on analytics_5854; disabling this rule removes t
 
 - status: INCOMPLETE; requested_at: 2026-03-20T06:00:00+00:00; audit_at: 2026-04-14T06:00:00+00:00
 - subject: user_375; emails=['rina-sato@gmail.com']; phones=['819040061113', '819065425325']; hashes=['10b096b817b742db5fe102d212f403b668460d13b6830ec15a40e9cac662989a']
-- tied by: [('user_375', 'user_id', 'exact'), ('rina-sato@gmail.com', 'email', 'exact'), ('p:819065425325', 'phone', 'exact'), ('10b096b817b742db5fe102d212f403b668460d13b6830ec15a40e9cac662989a', 'hash', 'exact')]
+- tied by: [('rina-sato@gmail.com', 'email', 'exact'), ('user_375', 'user_id', 'exact'), ('10b096b817b742db5fe102d212f403b668460d13b6830ec15a40e9cac662989a', 'hash', 'exact'), ('p:819065425325', 'phone', 'exact')]
 - deciding fact observed_at: 2026-04-14T06:00:00+00:00; file: evidence/records/customer_data_snapshot_bundle_20260416.json
 - finding: REPORT_EXPOSED_PII analytics_platform analytics_3651 state=PRESENT
 - rule under test: policy: ANALYTICS_PROFILE is ANONYMIZE, not RETAIN
@@ -638,7 +638,7 @@ why: the engine reads `ACTIVE` on data_flow_677; disabling this rule removes the
 - rule under test: state: enabled=true means an active data flow
 
 ```
-2026-05-29T06:46:09Z level=DEBUG service=integration_service trace_id=rb-064609-015 event=connector_config_read_started resource_id=data_flow_6953 lookup_key=kofi.appiah96@outlook.com
+2026-05-29T06:46:09Z level=INFO service=integration_service trace_id=rb-064609-015 event=connector_config_read_completed resource_id=data_flow_6953 enabled=true last_delivery_status=delivered connector_name=analytics_identity_bridge customer_email=kofi.appiah96@outlook.com customer_reference=null
 ```
 
 why: the engine reads `ACTIVE` on data_flow_6953; disabling this rule removes the only finding.
@@ -1006,7 +1006,7 @@ why: the engine reads `ACTIVE` on backup_8588; disabling this rule removes the o
 - rule under test: state: restore_allowed=true means a restore risk
 
 ```
-2026-05-29T06:06:44Z level=DEBUG service=backup_service trace_id=rb-060644-011 event=restore_policy_read_started resource_id=backup_7079 lookup_key=n.collins20@gmail.com
+2026-05-29T06:06:44Z level=INFO service=backup_service trace_id=rb-060644-011 event=restore_policy_read_completed resource_id=backup_7079 archive_present=true restore_allowed=true archive_key=archive/customer-data/backup_7079.tar.zst customer_email=n.collins20@gmail.com customer_reference=null
 ```
 
 why: the engine reads `ACTIVE` on backup_7079; disabling this rule removes the only finding.

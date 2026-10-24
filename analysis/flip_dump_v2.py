@@ -116,7 +116,11 @@ def main() -> int:
                 record = ("json", None, found)
             elif path.suffix in {".log", ".txt"}:
                 raw = path.read_text(errors="replace").splitlines()
-                idx = next((i for i, l in enumerate(raw) if s.resource_id in l), None)
+                lineno = int(fact.detail.get("__lineno") or 0)
+                if 0 < lineno <= len(raw):
+                    idx = lineno - 1
+                else:
+                    idx = next((i for i, l in enumerate(raw) if s.resource_id in l), None)
                 record = ("log", None, raw[idx] if idx is not None else None)
             elif path.suffix == ".png":
                 digest = json.loads((ROOT / "code/audit/digests/documents.json").read_text())
