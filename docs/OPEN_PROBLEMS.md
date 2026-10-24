@@ -34,7 +34,9 @@ Options considered:
   observation order. No solution found.
 
 A better approach needs a signal this dataset does not ship, or a grader that
-credits the operation/system/phase even with a wrong resource id.
+credits the operation/system/phase even with a wrong resource id. **Status:
+we could not derive these ids; the tests and denominators are listed above,
+not a claim that they are undeliverable in principle.**
 
 ## 2. Anonymised analytics rows
 

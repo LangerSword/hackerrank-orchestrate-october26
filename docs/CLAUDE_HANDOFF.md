@@ -285,7 +285,8 @@ Paths recorded per fact at attribution: `email`, `hash`, `phone`, `user_id`,
   discriminator; the account lookup list order does not follow case, user, or
   observation order.
 - Precommitted bar: near-deterministic (~16/18 leave-one-out). Nothing clears
-  it. **Item closed, not to be revisited.**
+  it. **We could not derive these ids from the shipped data; this is not a
+  claim that no derivation exists.**
 
 ### 7.6 Intent (item 4)
 
