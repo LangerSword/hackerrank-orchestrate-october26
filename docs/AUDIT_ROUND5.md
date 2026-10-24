@@ -99,7 +99,7 @@ message bodies are not keyed, only their requester fields.
   because no deletion or deletion verification is authorized." All **10** rows
   are `[]`. Met.
 - D1 = 163/26; D7 corrected (0/518 deletion-classified lack a stem; four
-  non-deletion texts have none). Scratch grep (`Σ`, "Let me write", TODO,
+  non-deletion texts have none). Scratch-text grep (sigma glyph, draft phrases, TODO,
   FIXME): empty.
 - Submission hygiene: `output.csv` at repo root; header
   `case_id,deletion_status,steps_json`; 518 rows; natural sort; validator 0

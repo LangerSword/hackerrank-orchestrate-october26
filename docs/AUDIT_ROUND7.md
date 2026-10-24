@@ -101,7 +101,7 @@ combined).
 
 ## 4. Hygiene
 
-Scratch grep (`Σ`, "Let me write", "~716", TODO, FIXME) over README, `docs/`,
+Scratch-text grep (sigma glyph, draft phrases, 716 marker, TODO/FIXME) over README, `docs/`,
 `analysis/`, `log.txt` — see command output; hits removed if any. README,
 DECISIONS and OPEN_PROBLEMS agree on: field 75.8% positional / 83.0%
 content-only, recall estimate 0.889, 33 events kept, 27 omitted slots.
