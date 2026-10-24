@@ -4,6 +4,7 @@ which subject each observation belongs to.
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
 import re
 import shutil
@@ -39,8 +40,10 @@ class EvidenceIndex:
              digest_path: Path | None = None) -> "EvidenceIndex":
         index = cls()
         digest = {}
+        digest_hashes = {}
         if digest_path and digest_path.exists():
             digest = json.loads(digest_path.read_text())
+            digest_hashes = digest.get("_meta", {}).get("content_sha256", {})
         index._dataset_dir = dataset_dir
         manifest = dataset_dir / "evidence_files.csv"
         with manifest.open(newline="", encoding="utf-8") as handle:
@@ -54,7 +57,7 @@ class EvidenceIndex:
                 captured_at=parse_ts(row["captured_at"]),
             )
             index.files[evidence.file_id] = evidence
-            facts, empties = index._extract(evidence, digest)
+            facts, empties = index._extract(evidence, digest, digest_hashes)
             index.facts.extend(facts)
             index.empty_snapshots.extend(empties)
 
@@ -80,10 +83,17 @@ class EvidenceIndex:
                 if system and resource:
                     self.resource_users[(system, resource)].add(match.group(1))
 
-    def _extract(self, evidence: EvidenceFile, digest: dict):
+    def _extract(self, evidence: EvidenceFile, digest: dict, digest_hashes: dict):
         suffix = evidence.path.suffix.lower()
-        if evidence.file_id in digest:
-            return _parse_digest(evidence, digest), []
+        if digest:
+            content_hash = hashlib.sha256(evidence.path.read_bytes()).hexdigest()
+            key = digest_hashes.get(content_hash)
+            if key and key in digest:
+                return _parse_digest(evidence, {evidence.file_id: digest[key]}), []
+            if digest_hashes and suffix in {".pdf", ".png", ".jpg", ".jpeg"}:
+                # The cache is content-addressed: a changed artefact must not
+                # be read through a stale transcription.
+                return [], []
         text = ""
         if suffix in {".json", ".sql", ".log", ".txt"}:
             text = evidence.path.read_text(encoding="utf-8", errors="replace")
