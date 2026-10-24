@@ -620,18 +620,20 @@ def _bool(value: str) -> bool | None:
 def _parse_logs(evidence: EvidenceFile, text: str) -> list[Fact]:
     facts: list[Fact] = []
     pending: dict[str, dict] = {}
-    for line in text.splitlines():
+    for lineno, line in enumerate(text.splitlines(), 1):
         stamp = _TS_RE.match(line.strip())
         if not stamp:
             continue
         observed = parse_ts(stamp.group(1))
         pairs = _line_pairs(line)
+        pairs["__lineno"] = str(lineno)
         brace = line.find("{")
         if brace != -1:
             try:
                 payload = json.loads(line[brace:])
                 if isinstance(payload, dict) and payload.get("event"):
                     pairs = {k: ("" if v is None else str(v)) for k, v in payload.items()}
+                    pairs["__lineno"] = str(lineno)
             except json.JSONDecodeError:
                 pass
         message = re.search(r'message="(.*)"', line)
@@ -747,7 +749,7 @@ def _parse_logs(evidence: EvidenceFile, text: str) -> list[Fact]:
 # --------------------------------------------------------------------------
 def _parse_handover(evidence: EvidenceFile, text: str) -> list[Fact]:
     facts = []
-    for line in text.splitlines():
+    for lineno, line in enumerate(text.splitlines(), 1):
         line = line.strip()
         if not line.startswith("- "):
             continue
@@ -767,7 +769,7 @@ def _parse_handover(evidence: EvidenceFile, text: str) -> list[Fact]:
         identifier = parts[5] if len(parts) > 5 else ""
         ids = frozenset({identifier}) if identifier and identifier != "no direct identifier" else frozenset()
         facts.append(_make_fact(evidence, system, category, resource, state, observed, ids,
-                                source="handover"))
+                                source="handover", detail={"__lineno": str(lineno)}))
     return [f for f in facts if f]
 
 
