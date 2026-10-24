@@ -35,9 +35,9 @@ def main() -> int:
         status_ok += status
         seq = gs == ps
         seq_ok += seq
-        for i in range(max(len(gs), len(ps))):
-            if i < len(gs) and i < len(ps):
-                field_total += 7
+        for i in range(len(gs)):
+            field_total += 7
+            if i < len(ps):
                 field_ok += sum(1 for k in ("step_no", "phase", "system_id", "resource_id",
                                             "operation", "state", "evidence_id")
                                 if gs[i].get(k) == ps[i].get(k))

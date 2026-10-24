@@ -21,7 +21,9 @@ Ownership is established at any time ≤ audit; state is the latest observation
 ≤ audit. Rejected: single-pass joins, which lose resources whose identifiers
 were removed after ownership was established.
 Measured: 91 cases have single-path attribution (81 email-only, 10 user_id-
-only); 0 near-miss decoys across 79 text evidence files.
+only); 0 near-miss decoys across 79 text evidence files. Catalog links seed 12
+ownership rows but attribute **1** fact and change **0** verdicts under
+mutation; they are a redundancy, not a load-bearing path.
 
 ## D4. Replica presence counts
 A row in any replica is presence. In this corpus no case has a replica-present
@@ -50,7 +52,9 @@ follow-ups ("confirm the profile is gone").
 Newest pre-audit file that covers the most violations; ties by file id.
 Measured: 506/518 cases have a unique newest file; 2 need recency; 0 have a
 same-timestamp tie. The sample has 0 ties, so the tie-break is deterministic
-but unvalidated.
+but unvalidated. Mutation `citation_newest_only` changes **0** cases: coverage
+and recency coincide everywhere in this corpus, so the coverage rule is inert
+here (counter: 0 differing choices).
 
 ## D9. Content-addressed document digest
 PDF/screenshot facts are keyed by SHA-256. A changed artefact invalidates its
