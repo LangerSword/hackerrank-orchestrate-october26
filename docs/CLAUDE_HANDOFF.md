@@ -212,3 +212,107 @@ python3 code/main.py --sample && python3 analysis/compare.py
 python3 code/main.py
 python3 code/tools/build_document_digest.py --check
 ```
+
+---
+
+## 7. Round 2 — enumeration audit (post-review)
+
+Everything below was run over all 518 inputs, not sampled. Labels are hidden;
+these are structural facts about our output and inputs.
+
+### 7.1 Archetype coverage (item 1)
+
+- 118 distinct signatures in the 518 (`status × finding operations/systems ×
+  identity path × evidence extension`), 24 in the 32 samples.
+- Only **165/518** cases share a signature with a sample case. **353 cases
+  (68%) sit in 102 unvalidated signatures.**
+- Largest unvalidated families:
+  - **62 COMPLETE**, current identity, `.sql` evidence, zero findings. This is
+    the single biggest unvalidated mass: the sample never exercises a
+    SQL-snapshot-only COMPLETE.
+  - 18 INCOMPLETE, search + flow, `.sql`
+  - 15 INCOMPLETE, search + flow, `.json`
+  - 13 INCOMPLETE, search + support-PII, `.sql`
+  - 10 INCOMPLETE, search + flow, `.log`, historical identity
+  - 10 NOT_APPLICABLE (the known trap block)
+- Hand-checked `case_59` from the 62: the inventory has 18 rows and none for
+  `user_57`; its only step is a retained audit record. Consistent, but
+  under-evidenced — canonical may carry account/search verifications we cannot
+  name.
+
+### 7.2 Ownership-path ablation (item 3)
+
+Paths recorded per fact at attribution: `email`, `hash`, `phone`, `user_id`,
+`resource_index` (earlier snapshot), `catalog_link`.
+
+- Facts are overwhelmingly multi-path: email 355, user_id 415, phone 52,
+  hash 31, resource_index 6 cases participate.
+- Single-path INCOMPLETE cases: **91 total — 81 email-only, 10 user_id-only —
+  and 0 of them are in the sample.** That is the unvalidated attribution
+  surface: if an email-only link is a decoy, 81 cases flip with no sample
+  signal.
+- `hash`, `phone`, `catalog_link`, `resource_index` are never sole support in
+  this corpus, so their ablation flips nothing.
+- The 15 weakest two-finding cases were all multi-path (email + phone +
+  user_id); no weak-path concentration there.
+
+### 7.3 Timestamp boundary audit (item 3)
+
+- 6,911 timestamps parsed; **all `Z`**. No naive or offset forms, so no tz
+  misparse class exists in this corpus.
+- 2,095 facts sit within 24 h of `requested_at` or `audit_at`; these are the
+  decisions that a boundary-offset bug would move. With a single timestamp
+  format the risk is structural (inclusive `≤`), not lexical. `case_33` is the
+  only INCOMPLETE that relies on the fallback (pre-request) path.
+
+### 7.4 Replica drift (item 4)
+
+- **0 cases** have a present observation sourced from a replica/failover file
+  that is older than a later primary `ABSENT`. Every earlier-present/later-
+  absent pair is the same file's timeline (e.g. `case_70`: present 09-10,
+  absent 09-16).
+- The "presence in any replica counts as present" rule is therefore
+  **unexercised** in the visible corpus. It belongs in the unvalidated set,
+  not the verified set.
+
+### 7.5 27-slot residue (item 2)
+
+- **ID numerics:** Spearman between case number and account suffix over the 14
+  sample accounts with ids: **0.024**. Closed.
+- The two audit-record ids (`audit_record_6645`, `audit_record_5569`) appear
+  nowhere in the participant data. Same trace-less class as the accounts.
+- Format-residue inspection (key order, row order, whitespace) found no
+  discriminator; the account lookup list order does not follow case, user, or
+  observation order.
+- Precommitted bar: near-deterministic (~16/18 leave-one-out). Nothing clears
+  it. **Item closed, not to be revisited.**
+
+### 7.6 Intent (item 4)
+
+- 137 skeletons after replacing emails/ids/numbers; 74 contain more than one
+  *status*, which is expected (same request, different data state). No
+  skeleton mixes deletion and non-deletion intent.
+- The default was tightened: deletion now requires delete vocabulary **or** an
+  implicit "confirm it is gone / verify the profile is gone / account still
+  existed" pattern. Otherwise NON_DELETE. Visible corpus: 0 verdict changes,
+  sample still 32/32.
+- Probe set now passes: late retraction, "stop deleting my saved searches",
+  hypothetical, scoped delete (DELETE), "unsubscribe", ES "no borren", FR "ne
+  supprimez pas", DE "bitte nicht löschen".
+
+### 7.7 Scoring shape
+
+`problem_statement.md` and `AGENTS.md` say only that JSON key order/whitespace
+are ignored, **array order matters**, and scoring "considers" status, identity,
+discovery, evidence, policy, and completeness/order. They do not state
+positional vs set matching or partial credit. We therefore did **not** emit the
+27 slots with empty `resource_id`; the schema names `resource_id` as a field and
+an empty value is not evidence.
+
+### 7.8 Next actions, ranked
+
+1. Hand-audit 5 of the **62 COMPLETE / .sql** cases against table row counts.
+2. Reverse-index the **81 email-only** cases for near-miss decoys (edit
+   distance 1, same local part different domain, same phone reformatted).
+3. Decide whether the 62/66 "SQL-only COMPLETE" archetype should carry an
+   explicit account verification we currently omit (id unknown) or stay as is.
