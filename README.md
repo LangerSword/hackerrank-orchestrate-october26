@@ -115,8 +115,15 @@ The repository includes four checks.
 | Public sample | `python3 code/main.py --sample && python3 analysis/compare.py` | 32/32 statuses, 167/193 steps, 0 extra steps, F1 0.928 |
 | Contract | `python3 code/evaluation/main.py` | 518 rows, 0 validator errors |
 | Negative controls | `python3 analysis/test_eval_negative.py` | 15/15 illegal outputs caught |
+| State tests | `python3 -m unittest discover -s code/tests -t code` | 4/4 synthetic replica/tie/empty-snapshot tests |
 | Claims check | `python3 scripts/check_claims.py` | no retracted phrases; headline numbers match a fresh run |
 | Activity coverage | `python3 analysis/activity_coverage.py` | 82/82 sync, 83/83 data-flow, 25/25 restore covered |
+| Activity corroboration | `python3 analysis/activity_corroboration.py` | 255 in-window; 32/36 disable claims, 0 contradicted |
+| Attribution split | `python3 analysis/attribute_split.py` | 281 unattributed: 0 known-other, 77 unknown-id, 204 anonymous |
+| N/A traps | `python3 analysis/na_traps.py` | 10/10 mapped: access 2, correction 3, portability 2, opt-out 2, login 1 |
+| Strict mode | `python3 analysis/strict_mode.py` | 0 state-bearing completed lines outside facts |
+| Break-even | `python3 analysis/breakeven.py` | exact F1 0.928 vs guess 0.924; index fields 76.5% vs 98.3% |
+| Interview evidence | `python3 scripts/interview_evidence.py` | one-page evidence sheet for every answer |
 | Package gate | `python3 scripts/verify_package.py` | clean extraction passes every check |
 | Intent probes | `python3 analysis/test_intent.py` | 140/140 self-authored probes |
 
@@ -130,6 +137,25 @@ Two independent checks support the evidence parsers:
 - A state oracle read 959 log lines and 761 JSON records again. It found 0
   disagreements with the fact store.
 - A SQL oracle read 66 SQL-only COMPLETE cases again. It found 0 disagreements.
+
+## Activity corroboration
+
+`analysis/activity_corroboration.py` checks every subject-linked activity inside
+a case window against later evidence. It is corroboration only; activity
+`SUCCESS` never becomes state.
+
+| Activity | In-window | Corroborated | Contradicted |
+|---|---:|---:|---:|
+| SYNC_RECORD | 82 | 82 | 0 |
+| CHECK_DATA_FLOW | 83 | 83 | 0 |
+| DISABLE_DATA_FLOW | 32 of 36 | 32 | 0 |
+| CHECK_RESTORE_ACCESS | 25 | 25 | 0 |
+| BLOCK_RESTORE | 32 | 32 | 0 |
+| RESTORE_BACKUP | 0 (1 post-audit) | 0 | 0 |
+
+No in-window `DISABLE_DATA_FLOW` claim is contradicted by later evidence. The
+one `RESTORE_BACKUP` (`backup_9287`, 2026-08-22) is after case_55's audit and is
+excluded.
 
 The agent makes 0 model calls. It makes 0 network calls.
 

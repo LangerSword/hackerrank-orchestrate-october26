@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from .activity import ActivityAudit
 from .index import EvidenceIndex
 from .intent import DELETE, classify
 from .model import Case, CaseResult
@@ -20,6 +21,7 @@ class AuditAgent:
         self.index = EvidenceIndex.load(self.dataset_dir, self.identities, digest_path)
         self.states = StateBuilder(self.index, self.identities)
         self.account_claims = {}
+        self.activity = None
         activity = self.dataset_dir / "system_activity.csv"
         if activity.exists():
             import csv as _csv
@@ -48,4 +50,7 @@ class AuditAgent:
         return CaseResult(case.case_id, status, steps)
 
     def run_all(self, filename: str = "deletion_requests.csv") -> list[CaseResult]:
-        return [self.audit(case) for case in load_cases(self.dataset_dir, filename)]
+        cases = load_cases(self.dataset_dir, filename)
+        self.activity = ActivityAudit(self.dataset_dir, self.index,
+                                      self.identities, cases)
+        return [self.audit(case) for case in cases]

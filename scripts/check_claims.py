@@ -20,6 +20,8 @@ DOCS = [
     ROOT / "code/evaluation/usage_report.md",
     ROOT / "docs/DECISIONS.md",
     ROOT / "docs/FLIP_LEDGER.md",
+    ROOT / "docs/BREAKEVEN.md",
+    ROOT / "docs/CASE_WALKTHROUGHS.md",
 ]
 
 BANNED = [

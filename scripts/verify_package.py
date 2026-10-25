@@ -32,9 +32,15 @@ def package_files() -> list[Path]:
         Path("analysis/test_eval_negative.py"),
         Path("analysis/test_intent.py"),
         Path("analysis/activity_coverage.py"),
+        Path("analysis/activity_corroboration.py"),
+        Path("analysis/attribute_split.py"),
+        Path("analysis/na_traps.py"),
+        Path("analysis/breakeven.py"),
+        Path("analysis/strict_mode.py"),
         Path("scripts/fetch_dataset.sh"),
         Path("scripts/verify_package.py"),
         Path("scripts/check_claims.py"),
+        Path("scripts/interview_evidence.py"),
     ]
     files += sorted(Path("docs").glob("*.md"))
     return files
@@ -97,6 +103,8 @@ def main() -> int:
         (work / "dataset").symlink_to(dataset)
 
         run(["./scripts/fetch_dataset.sh"], work, "dataset/ already present")
+        run([sys.executable, "-m", "unittest", "discover", "-s", "code/tests",
+             "-t", "code"], work, "OK")
         run([sys.executable, "code/evaluation/main.py"], work,
             "sample status 32/32")
         run([sys.executable, "scripts/check_claims.py"], work, "CLAIMS OK")
@@ -104,6 +112,13 @@ def main() -> int:
         run([sys.executable, "analysis/test_eval_negative.py"], work, "15/15")
         run([sys.executable, "analysis/test_intent.py"], work, "140/140")
         run([sys.executable, "analysis/activity_coverage.py"], work, "missed")
+        run([sys.executable, "analysis/activity_corroboration.py"], work,
+            "contradicted: 0")
+        run([sys.executable, "analysis/attribute_split.py"], work, "anonymous")
+        run([sys.executable, "analysis/na_traps.py"], work, "exposure bound")
+        run([sys.executable, "analysis/breakeven.py"], work, "guess p=0.438")
+        run([sys.executable, "analysis/strict_mode.py"], work,
+            "state-bearing completed lines outside facts: 0")
 
     payload = ZIP.read_bytes()
     print(f"PACKAGE OK  {ZIP.name}  {len(names)} files  {len(payload)} bytes")

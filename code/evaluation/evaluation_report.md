@@ -13,6 +13,9 @@ zero model calls.
   independent sqlite oracle over 66 SQL-only COMPLETE cases, 14 mutations.
   Validator negative controls: 15/15, including invalid status, unknown
   activity, and post-audit activity citations.
+- Strict-mode provenance: 1,289 raw subject-token lines outside facts; **0
+  state-bearing completed lines** outside facts. The raw lines are lookups,
+  heartbeats and other non-observation events, not missed state.
 - The sample contains no NOT_APPLICABLE case; intent has no label coverage.
 
 ## Metrics (32 public samples)

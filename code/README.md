@@ -33,11 +33,32 @@ python3 analysis/compare.py
 # Validator negative controls
 python3 analysis/test_eval_negative.py
 
+# Synthetic state tests (replica, tie, empty snapshot)
+python3 -m unittest discover -s code/tests -t code
+
 # Claims check: no retracted phrases; numbers match a fresh run
 python3 scripts/check_claims.py
 
 # Sync/restore activity coverage
 python3 analysis/activity_coverage.py
+
+# Activity corroboration against later evidence
+python3 analysis/activity_corroboration.py
+
+# Unattributed-fact split
+python3 analysis/attribute_split.py
+
+# Strict-mode provenance: state-bearing lines without facts
+python3 analysis/strict_mode.py
+
+# N/A trap mapping and exposure bound
+python3 analysis/na_traps.py
+
+# Break-even under exact-step and index-aligned models
+python3 analysis/breakeven.py
+
+# Interview evidence sheet: every answer with its command
+python3 scripts/interview_evidence.py
 
 # Package gate: build zip, extract clean, run every check
 python3 scripts/verify_package.py
@@ -59,6 +80,7 @@ validator fails.
 | `audit/tables.py` | identity graph from current and historical identifiers |
 | `audit/evidence.py` | JSON/SQL/log/text/PDF/image parsers into facts |
 | `audit/index.py` | manifest load and fact-to-subject attribution |
+| `audit/activity.py` | activity corroboration against later evidence; no state changes |
 | `audit/state.py` | newest observation at or before `audit_at`; replica presence wins |
 | `audit/policy.py` | `deletion_rules.csv` lookup and required final state |
 | `audit/planner.py` | FINDING -> REMEDIATION -> VERIFICATION steps |

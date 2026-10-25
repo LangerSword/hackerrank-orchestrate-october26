@@ -318,3 +318,35 @@ branch=master
 repo_root=/home/lakshaya/projects/orchestrate-solution
 worktree=main
 parent_agent=none
+
+## [2026-10-25T16:53:06+0530] Hardening pass: activity corroboration, replica tests, N/A and break-even
+
+User Prompt (verbatim, secrets redacted):
+[Advisor review: after the flip and claims gates, build the activity corroboration
+path, replica tests, the 281 split, N/A trap mapping, and both break-even models.]
+
+Agent Response Summary:
+Added code/audit/activity.py and wired it into the pipeline without touching
+output; 255 subject-linked in-window activities corroborate, 0 contradict, and
+the single RESTORE_BACKUP is excluded as post-audit. Added four synthetic replica
+tests. Split the 281 unattributed facts into 0 known-other, 77 unknown-identifier
+and 204 anonymous. Mapped all ten NOT_APPLICABLE rows to the contract trap types
+with a 1.9% exposure bound. Measured break-even under exact-step F1 and
+index-aligned fields; the numbers are in docs/BREAKEVEN.md and do not change the
+output.
+
+Actions:
+* added code/audit/activity.py, code/tests/test_state.py
+* added analysis/activity_corroboration.py, attribute_split.py, na_traps.py,
+  breakeven.py, strict_mode.py
+* added docs/BREAKEVEN.md, docs/CASE_WALKTHROUGHS.md,
+  scripts/interview_evidence.py
+* ran unittest (4/4), sample gate, validator, 15/15, activity checks, package gate
+
+Context:
+tool=Hermes Agent
+model=deepseek-v4.1-flash
+branch=master
+repo_root=/home/lakshaya/projects/orchestrate-solution
+worktree=main
+parent_agent=none
