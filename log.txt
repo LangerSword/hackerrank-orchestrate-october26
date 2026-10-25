@@ -350,3 +350,15 @@ branch=master
 repo_root=/home/lakshaya/projects/orchestrate-solution
 worktree=main
 parent_agent=none
+
+## [2026-10-25T22:01:49+0530] External review disclosure
+
+External advisor sessions used on this build:
+
+* Claude was used as a reviewer/architect. It read status reports and wrote audit
+  briefs. It did not execute code, edit files, or produce output rows. Dates of
+  those sessions are to be supplied by Lakshaya.
+* Hermes Agent (deepseek-v4.1-flash) ran the code, experiments and verification.
+
+This section is the honest disclosure for the chat score. It is not a claim that
+the external reviewer saw every turn.
