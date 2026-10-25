@@ -62,9 +62,10 @@ def validate_submission(output_csv: Path, requests_csv: Path,
     report = Report()
     with output_csv.open(newline="", encoding="utf-8") as handle:
         reader = csv.DictReader(handle)
-        if reader.fieldnames != ["case_id", "deletion_status", "steps_json"]:
-            report.errors.append(f"header is {reader.fieldnames}")
-        rows = list(reader)
+        fieldnames = reader.fieldnames or []
+        if fieldnames != ["case_id", "deletion_status", "steps_json"]:
+            report.errors.append(f"header is {fieldnames}")
+        rows = list(reader) if set(fieldnames) >= {"case_id", "deletion_status", "steps_json"} else []
     with requests_csv.open(newline="", encoding="utf-8") as handle:
         requests = {row["case_id"]: row for row in csv.DictReader(handle)}
 
