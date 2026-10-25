@@ -19,16 +19,19 @@ zero model calls.
 |---|---|
 | Case-level status accuracy | **32/32 (100%)** |
 | Row completeness (518) | **518/518** |
-| Step-level match | **166/193 (86.0%)**, 0 extra |
-| Field-level match | **1024/1351 (75.8%)** (includes 27 missing steps) |
-| Exact sequence | **11/32 (34.4%)** |
-| Precision / recall / F1 (steps) | 1.000 / 0.860 / **0.925** |
+| Step-level match | **167/193 (86.5%)**, 0 extra |
+| Field-level match | **1033/1351 (76.5%)** (includes 26 missing steps) |
+| Content fields on emitted steps | **1002/1002 (100%)** |
+| Exact sequence | **12/32 (37.5%)** |
+| Precision / recall / F1 (steps) | 1.000 / 0.865 / **0.928** |
 
-Omitted 27 steps: 18 account verifications for deleted accounts, 7 anonymised
+Omitted 26 steps: 17 account verifications for deleted accounts, 7 anonymised
 analytics verifications, 2 retained audit records. No identifier in
 participant data ties those resources to the subject; the best activity guesser
 scored 43.8% against a 46.3% exact-match break-even, so they are omitted rather
-than guessed.
+than guessed. Every emitted step matches the six content fields of a gold step;
+the 26 misses are absent steps, not wrong fields. Positional field accuracy is
+lower because each missing step shifts the steps after it.
 
 ## Custom evaluation cases
 
