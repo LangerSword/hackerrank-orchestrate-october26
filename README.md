@@ -115,14 +115,15 @@ The repository includes four checks.
 | Public sample | `python3 code/main.py --sample && python3 analysis/compare.py` | 32/32 statuses, 167/193 steps, 0 extra steps, F1 0.928 |
 | Contract | `python3 code/evaluation/main.py` | 518 rows, 0 validator errors |
 | Negative controls | `python3 analysis/test_eval_negative.py` | 15/15 illegal outputs caught |
-| State tests | `python3 -m unittest discover -s code/tests -t code` | 4/4 synthetic replica/tie/empty-snapshot tests |
+| State tests | `python3 -m unittest discover -s code/tests -t code` | 8/8 state and activity tests |
 | Claims check | `python3 scripts/check_claims.py` | no retracted phrases; headline numbers match a fresh run |
 | Activity coverage | `python3 analysis/activity_coverage.py` | 82/82 sync, 83/83 data-flow, 25/25 restore covered |
 | Activity corroboration | `python3 analysis/activity_corroboration.py` | 255 in-window; 32/36 disable claims, 0 contradicted |
 | Attribution split | `python3 analysis/attribute_split.py` | 281 unattributed: 0 known-other, 77 unknown-id, 204 anonymous |
+| Edge census | `python3 analysis/edge_census.py` | 1 foreign-key edge, already used; 0 unused |
 | N/A traps | `python3 analysis/na_traps.py` | 10/10 mapped: access 2, correction 3, portability 2, opt-out 2, login 1 |
 | Strict mode | `python3 analysis/strict_mode.py` | 0 state-bearing completed lines outside facts |
-| Break-even | `python3 analysis/breakeven.py` | exact F1 0.928 vs guess 0.924; index fields 76.5% vs 98.3% |
+| Break-even | `python3 analysis/breakeven.py` | exact F1 0.928 vs guess 0.926; index fields 76.5% vs 91.4% |
 | Interview evidence | `python3 scripts/interview_evidence.py` | one-page evidence sheet for every answer |
 | Package gate | `python3 scripts/verify_package.py` | clean extraction passes every check |
 | Intent probes | `python3 analysis/test_intent.py` | 140/140 self-authored probes |
@@ -156,6 +157,19 @@ a case window against later evidence. It is corroboration only; activity
 No in-window `DISABLE_DATA_FLOW` claim is contradicted by later evidence. The
 one `RESTORE_BACKUP` (`backup_9287`, 2026-08-22) is after case_55's audit and is
 excluded.
+
+Positive controls in `code/tests/test_activity.py` prove the detector fires:
+`DISABLE_DATA_FLOW` + later `ACTIVE` → contradicted; `BLOCK_RESTORE` + later
+`ACTIVE` → contradicted; `CHECK_RESTORE_ACCESS` + later `BLOCKED` → contradicted;
+`DISABLE_DATA_FLOW` + later `DISABLED` → corroborates. The real zero is not
+vacuous.
+
+## Digest provenance
+
+The document digest has 13 entries and 56 classified fields: **28 literal, 23
+visual, 5 inferred**. The inferred fields are `evidence_32` state/user_ref,
+`evidence_46` resource_id, and `evidence_60` identifiers/user_ref. They are why
+case_55 and case_63 stay unresolved. See `docs/DIGEST_PROVENANCE.md`.
 
 The agent makes 0 model calls. It makes 0 network calls.
 

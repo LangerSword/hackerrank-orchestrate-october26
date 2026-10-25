@@ -37,6 +37,7 @@ def package_files() -> list[Path]:
         Path("analysis/na_traps.py"),
         Path("analysis/breakeven.py"),
         Path("analysis/strict_mode.py"),
+        Path("analysis/edge_census.py"),
         Path("scripts/fetch_dataset.sh"),
         Path("scripts/verify_package.py"),
         Path("scripts/check_claims.py"),
@@ -119,6 +120,7 @@ def main() -> int:
         run([sys.executable, "analysis/breakeven.py"], work, "guess p=0.438")
         run([sys.executable, "analysis/strict_mode.py"], work,
             "state-bearing completed lines outside facts: 0")
+        run([sys.executable, "analysis/edge_census.py"], work, "source_resource_id")
 
     payload = ZIP.read_bytes()
     print(f"PACKAGE OK  {ZIP.name}  {len(names)} files  {len(payload)} bytes")

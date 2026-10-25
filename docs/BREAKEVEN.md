@@ -1,72 +1,62 @@
 # Break-even under two scoring models
 
-The interview answer needs one correction: **omission** causes the step-number
-shift, not a wrong guess. A wrong-id guess still occupies its slot, so later
-steps stay aligned. The threshold depends on the scoring model.
+Correction: **omission** causes the step-number shift, not a wrong guess. A
+wrong-id guess still occupies its slot. The previous table guessed all 26 slots;
+that was wrong. Only the 17 account slots have a candidate pool. The 7 analytics
+and 2 audit slots have none and stay omitted.
+
+Metrics are strict canonical index alignment: `steps[i]` is compared with
+canonical `steps[i]` for `i < min(len(pred), len(gold))`, over the seven fields,
+denominator `len(gold) * 7 = 1351`. Missing positions score 0; extra predictions
+beyond the canonical length are not counted. Exact-step F1 is set-based on the
+six content fields (step number excluded): a prediction matches a canonical
+step if phase, system, resource, operation, state and evidence all match.
 
 ## 1. Exact-step F1
 
-Let the current F1 be `F`. Add one guessed step with probability `p` of being
-the exact gold step.
+Let current F1 be `F`. Add one guessed step with probability `p` of being exact.
 
-- A correct guess adds one true positive to both the prediction count and the
-  match count.
-- A wrong guess adds one prediction (false positive) but no match (false
-  negative), so precision and recall both fall.
+- Correct: one true positive, one more prediction.
+- Wrong: one false positive and one false negative.
 
-At the margin, the expected change is positive only when:
+The expected change is positive only when:
 
 ```text
 p > F / 2
 ```
 
-With the current sample F1 `F = 0.928`, the break-even is `0.464`. The best
-measured activity guesser was `14/32 = 0.438`, below the line. Under exact-step
-F1, abstaining wins by a small margin.
+With `F = 0.928`, break-even is **0.464**. The best measured account guesser is
+`14/32 = 0.438`, below it.
 
-## 2. Index-aligned field score
+## 2. Sample measurements
 
-The contract says:
+4,000 seeded trials; guesses only on account slots at `p = 0.438`.
 
-> Step numbers start at `1` and increase consecutively. Array order is
-> significant.
-
-> JSON object-key order and whitespace are ignored; array order is not.
-
-That makes an index-aligned model plausible: the grader may compare field
-values at the same array position. Under that model, omission shifts every later
-step and loses many fields; a wrong guess keeps the later steps aligned and
-still gets the phase, system, operation and state fields right.
-
-Simulation on the 32 public samples, 4,000 seeded trials:
-
-| Strategy | Positional fields | Precision | Recall | F1 | Exact-step F1 |
+| Strategy | Strict positional fields | Precision | Recall | F1 | Exact-step F1 |
 |---|---:|---:|---:|---:|---:|
-| Omit the 26 slots (current) | 1033/1351 = **76.5%** | 1.000 | 0.865 | 0.928 | 0.928 |
+| Omit all 26 (current output) | 1033/1351 = **76.5%** | 1.000 | 0.865 | 0.928 | **0.928** |
 | Oracle-fill all 26 | 1351/1351 = **100%** | 1.000 | 1.000 | 1.000 | 1.000 |
-| Guess 26 slots at p = 0.438 | 1329/1351 = **98.3%** | 0.924 | 0.924 | 0.924 | 0.924 |
+| Fill 9 non-account slots only; omit 17 account | 1099/1351 = **81.3%** | 1.000 | 0.912 | 0.954 | 0.954 |
+| Guess 17 account slots at 0.438; omit 9 | 1235/1351 = **91.4%** | 0.948 | 0.904 | 0.926 | **0.926** |
 
-The guess model assumes the wrong guess still fills the correct phase, system,
-operation and state, with a wrong `resource_id` (and empty or copied evidence).
-It is a model, not a real candidate pool: the 7 analytics and 2 audit slots have
-no candidate pool, so the 43.8% figure applies only to the account slots. The
-simulation is therefore an upper bound for the index-aligned gain, not a
-promise.
+The shift-only row isolates alignment: filling the 9 non-account slots exactly
+recovers 4.8 field points and 0.026 F1. The remaining 17 account slots cost
+another 14.8 field points. Guessing those at 0.438 recovers 10.1 field points
+but loses 0.002 exact-step F1 versus omission.
 
 ## 3. What this means
 
-- **Exact-step F1:** abstain. `0.438 < 0.464`.
-- **Index-aligned fields:** guessing wins by about 21.8 points on the sample,
-  because alignment is worth more than the wrong id costs. The threshold is
-  lower than 46.3%; this simulation does not derive its exact value.
-- **The contract makes array order significant**, so the index-aligned model
-  cannot be dismissed. We do not know which model the hidden grader uses.
-- **Decision:** the shipped output abstains. It does not emit an undisclosed
-  guess. `case_06` is not a counterexample: `account_006` came from
-  `search_documents_primary.source_resource_id`, a same-record foreign key, and
-  the step is a future `VERIFY_RECORD_ABSENT`, not a finding with a fabricated
-  citation.
+- **Exact-step F1:** abstain. `0.438 < 0.464`; the guess row is 0.926 vs 0.928.
+- **Strict index-aligned fields:** guessing account slots is worth about +10
+  points (76.5% → 91.4%), still short of the 100% oracle.
+- The asymmetry is real: −0.002 F1 versus +10 fields. The grader's alignment
+  determines which matters.
+- The contract says array order is significant, so index alignment cannot be
+  dismissed. It does not prove the grader uses it.
+- **Decision:** the shipped output abstains. `case_06` is not a guess:
+  `account_006` comes from `search_documents_primary.source_resource_id`, a
+  same-record foreign key, and the emitted step is a future verification.
 
-If the next edition wants to reopen guessing, it should do so as a disclosed
-experiment with a candidate pool, a measured per-slot probability, and both
-scores reported. It should not ship a hidden guess.
+If a guess rule were ever adopted, it would be limited to account slots, with a
+documented deterministic candidate rule, a README disclosure, and an interview
+answer. It would not be a hidden finding.

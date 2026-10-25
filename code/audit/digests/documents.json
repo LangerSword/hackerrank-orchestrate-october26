@@ -18,7 +18,17 @@
       "8a6428a899dc8d0769048c8e6f6db70c614fe65fd1e0bb87a43c7927c27ecdda": "evidence_55",
       "0c58960759d4821b030b467d6fe531e83e38e7f50b3de3389a735521d0001f18": "evidence_58",
       "51fa0e6a38f8fa3629ba1b0d0b90b4ed139715956b97bfd09a6f1a6232c15df5": "evidence_60"
-    }
+    },
+    "provenance_counts": {
+      "literal": 28,
+      "visual": 23,
+      "inferred": 5
+    },
+    "entries_with_inferred": [
+      "evidence_32",
+      "evidence_46",
+      "evidence_60"
+    ]
   },
   "evidence_04": [
     {
@@ -30,7 +40,13 @@
         "haruka.s1838@zoho.com"
       ],
       "user_ref": "user_11",
-      "observed_at": "2026-09-26T11:00:00Z"
+      "observed_at": "2026-09-26T11:00:00Z",
+      "provenance": {
+        "resource_id": "literal",
+        "state": "visual",
+        "identifiers": "literal",
+        "user_ref": "visual"
+      }
     }
   ],
   "evidence_09": [
@@ -43,7 +59,13 @@
         "user_13"
       ],
       "user_ref": "user_13",
-      "observed_at": "2026-09-01T06:00:00Z"
+      "observed_at": "2026-09-01T06:00:00Z",
+      "provenance": {
+        "resource_id": "literal",
+        "state": "visual",
+        "identifiers": "literal",
+        "user_ref": "visual"
+      }
     }
   ],
   "evidence_14": [
@@ -56,7 +78,13 @@
         "user_14"
       ],
       "user_ref": "user_14",
-      "observed_at": "2026-08-07T08:00:00Z"
+      "observed_at": "2026-08-07T08:00:00Z",
+      "provenance": {
+        "resource_id": "literal",
+        "state": "visual",
+        "identifiers": "literal",
+        "user_ref": "visual"
+      }
     },
     {
       "system": "integration_service",
@@ -67,7 +95,13 @@
         "lucia-torres@gmail.com"
       ],
       "user_ref": "user_15",
-      "observed_at": "2026-08-07T08:00:00Z"
+      "observed_at": "2026-08-07T08:00:00Z",
+      "provenance": {
+        "resource_id": "literal",
+        "state": "visual",
+        "identifiers": "literal",
+        "user_ref": "visual"
+      }
     }
   ],
   "evidence_19": [
@@ -80,7 +114,13 @@
         "darwish.omar@icloud.com"
       ],
       "user_ref": "user_20",
-      "observed_at": "2026-07-13T10:00:00Z"
+      "observed_at": "2026-07-13T10:00:00Z",
+      "provenance": {
+        "resource_id": "literal",
+        "state": "visual",
+        "identifiers": "literal",
+        "user_ref": "visual"
+      }
     }
   ],
   "evidence_23": [
@@ -93,7 +133,13 @@
         "ingrid.dahl@outlook.com"
       ],
       "user_ref": "user_18",
-      "observed_at": "2026-06-18T12:00:00Z"
+      "observed_at": "2026-06-18T12:00:00Z",
+      "provenance": {
+        "resource_id": "literal",
+        "state": "literal",
+        "identifiers": "literal",
+        "user_ref": "visual"
+      }
     }
   ],
   "evidence_28": [
@@ -106,7 +152,13 @@
         "kagyeman8947@fastmail.com"
       ],
       "user_ref": "user_22",
-      "observed_at": "2026-05-24T07:00:00Z"
+      "observed_at": "2026-05-24T07:00:00Z",
+      "provenance": {
+        "resource_id": "literal",
+        "state": "visual",
+        "identifiers": "literal",
+        "user_ref": "visual"
+      }
     }
   ],
   "evidence_32": [
@@ -119,7 +171,13 @@
         "areed1433@gmail.com"
       ],
       "user_ref": "user_16",
-      "observed_at": "2026-04-29T09:00:00Z"
+      "observed_at": "2026-04-29T09:00:00Z",
+      "provenance": {
+        "resource_id": "literal",
+        "state": "inferred",
+        "identifiers": "literal",
+        "user_ref": "inferred"
+      }
     }
   ],
   "evidence_37": [
@@ -132,7 +190,13 @@
         "user_03"
       ],
       "user_ref": "user_03",
-      "observed_at": "2026-09-05T07:00:00Z"
+      "observed_at": "2026-09-05T07:00:00Z",
+      "provenance": {
+        "resource_id": "literal",
+        "state": "visual",
+        "identifiers": "literal",
+        "user_ref": "visual"
+      }
     }
   ],
   "evidence_42": [
@@ -145,7 +209,13 @@
         "user_17"
       ],
       "user_ref": "user_17",
-      "observed_at": "2026-03-10T06:00:00Z"
+      "observed_at": "2026-03-10T06:00:00Z",
+      "provenance": {
+        "resource_id": "literal",
+        "state": "visual",
+        "identifiers": "literal",
+        "user_ref": "visual"
+      }
     }
   ],
   "evidence_46": [
@@ -158,7 +228,13 @@
         "priya.raman@gmail.com"
       ],
       "user_ref": "user_07",
-      "observed_at": "2026-02-13T08:00:00Z"
+      "observed_at": "2026-02-13T08:00:00Z",
+      "provenance": {
+        "resource_id": "inferred",
+        "state": "visual",
+        "identifiers": "literal",
+        "user_ref": "visual"
+      }
     }
   ],
   "evidence_58": [
@@ -171,7 +247,13 @@
         "priya.raman@gmail.com"
       ],
       "user_ref": "user_07",
-      "observed_at": "2026-09-12T07:30:00Z"
+      "observed_at": "2026-09-12T07:30:00Z",
+      "provenance": {
+        "resource_id": "literal",
+        "state": "visual",
+        "identifiers": "literal",
+        "user_ref": "visual"
+      }
     }
   ],
   "evidence_60": [
@@ -184,7 +266,13 @@
         "kwame-mensah@proton.me"
       ],
       "user_ref": "user_09",
-      "observed_at": "2026-09-16T07:20:00Z"
+      "observed_at": "2026-09-16T07:20:00Z",
+      "provenance": {
+        "resource_id": "literal",
+        "state": "visual",
+        "identifiers": "inferred",
+        "user_ref": "inferred"
+      }
     }
   ],
   "evidence_18": [
@@ -197,7 +285,13 @@
         "ingrid.dahl@outlook.com"
       ],
       "user_ref": "user_18",
-      "observed_at": "2026-07-18T11:00:00Z"
+      "observed_at": "2026-07-18T11:00:00Z",
+      "provenance": {
+        "resource_id": "literal",
+        "state": "literal",
+        "identifiers": "literal",
+        "user_ref": "visual"
+      }
     }
   ]
 }

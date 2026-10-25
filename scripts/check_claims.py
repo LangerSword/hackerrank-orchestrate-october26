@@ -22,6 +22,8 @@ DOCS = [
     ROOT / "docs/FLIP_LEDGER.md",
     ROOT / "docs/BREAKEVEN.md",
     ROOT / "docs/CASE_WALKTHROUGHS.md",
+    ROOT / "docs/DIGEST_PROVENANCE.md",
+    ROOT / "docs/EDGE_CENSUS.md",
 ]
 
 BANNED = [

@@ -58,3 +58,30 @@ Evidence chain:
 This is the difference between a derived id and a guessed id: the resource id
 comes from a same-record foreign key, and the operation is a future
 verification, not a finding with a fabricated citation.
+
+## 3. case_55 association test
+
+All activity rows touching `backup_9287`:
+
+- `activity_3387` `RESTORE_BACKUP` 2026-08-22 — after case_55 audit; excluded.
+- `activity_3388` `DELETE_RECORD` `search_4882` `FAILED` 2026-08-22 — after audit.
+- `activity_4006` `LINK_RESOURCE_IDENTITY` 2026-04-29 — links `backup_9287` to
+  `areed1433@gmail.com` and `user_16`.
+
+Crosstab over all sample and eval backup cases:
+
+| Backup state | In-window CHECK_RESTORE_ACCESS or BLOCK_RESTORE | Cases |
+|---|---|---:|
+| ACTIVE | yes (CHECK_RESTORE_ACCESS) | 28 |
+| BLOCKED | yes (BLOCK_RESTORE) | 35 |
+| BLOCKED | **no** | **1 (case_55)** |
+
+The association is clean: every ACTIVE backup has a restore-access check, every
+BLOCKED backup has a block action, and case_55 is the only backup with neither.
+That makes the **absence** of a restore-access activity weak evidence for
+BLOCKED.
+
+It is still not proof. The screenshot proves the archive exists and shows no
+restore field; it does not prove BLOCKED. Both `BLOCKED` and `ACTIVE` are
+inferences. The output keeps the conservative default `BLOCKED`/`COMPLETE` and
+does not change case_55 without a record that names `restore_allowed`.

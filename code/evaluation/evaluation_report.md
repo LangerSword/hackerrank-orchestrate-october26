@@ -81,3 +81,11 @@ python3 code/main.py --sample && python3 analysis/compare.py
 python3 code/main.py
 python3 code/evaluation/main.py
 ```
+
+## Digest provenance
+
+The digest has 13 entries and 56 classified fields: 28 literal, 23 visual and
+5 inferred. The inferred fields are `evidence_32` state/user_ref, `evidence_46`
+resource_id, and `evidence_60` identifiers/user_ref. See
+`docs/DIGEST_PROVENANCE.md`. The content hash still invalidates a changed file;
+provenance describes how the fact was read, not whether it is trustworthy.

@@ -51,6 +51,9 @@ python3 analysis/attribute_split.py
 # Strict-mode provenance: state-bearing lines without facts
 python3 analysis/strict_mode.py
 
+# Cross-resource edge census
+python3 analysis/edge_census.py
+
 # N/A trap mapping and exposure bound
 python3 analysis/na_traps.py
 

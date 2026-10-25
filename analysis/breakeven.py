@@ -94,6 +94,22 @@ def main() -> int:
     of, ot, op, orr, of1 = score(gold, oracle)
     print(f"oracle    fields {of}/{ot} ({of/ot:.1%}) P/R/F1 {op:.3f}/{orr:.3f}/{of1:.3f}")
 
+    # Shift cost only: fill the 9 non-account slots exactly, omit the 17
+    # account slots. This isolates alignment loss from content loss.
+    shift = {}
+    for case_id, row in gold.items():
+        ps = copy.deepcopy(steps(pred[case_id]))
+        for gold_index, gstep in missing.get(case_id, []):
+            if gstep.get("system_id") != "account_service":
+                ps.insert(gold_index, copy.deepcopy(gstep))
+        for i, step in enumerate(ps, start=1):
+            step["step_no"] = i
+        shift[case_id] = {"case_id": case_id,
+                          "deletion_status": row["deletion_status"],
+                          "steps_json": json.dumps(ps)}
+    sf, st, sp, sr, sf1 = score(gold, shift)
+    print(f"shift-only fields {sf}/{st} ({sf/st:.1%}) P/R/F1 {sp:.3f}/{sr:.3f}/{sf1:.3f}")
+
     rng = random.Random(20261025)
     trials = 4000
     sums = [0.0, 0.0, 0.0, 0.0, 0.0]
@@ -103,6 +119,10 @@ def main() -> int:
         for case_id, row in gold.items():
             ps = copy.deepcopy(steps(pred[case_id]))
             for offset, (gold_index, gstep) in enumerate(missing.get(case_id, [])):
+                # Only account slots have a candidate pool; leave the 9
+                # analytics/audit slots omitted.
+                if gstep.get("system_id") != "account_service":
+                    continue
                 chosen = copy.deepcopy(gstep) if rng.random() < p else guess_step(gstep, rng)
                 chosen["step_no"] = 0
                 ps.insert(gold_index, chosen)
