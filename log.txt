@@ -279,3 +279,42 @@ branch=master
 repo_root=/home/lakshaya/projects/orchestrate-solution
 worktree=main
 parent_agent=none
+
+## [2026-10-25T16:40:06+0530] Current claims and case_55 revert
+
+User Prompt (verbatim, secrets redacted):
+[Advisor review: explain the 153->152 flip and recovered slot, purge retracted
+claims, prove the clean zip, then harden the agent and interview evidence.]
+
+Agent Response Summary:
+Reverted case_55 to BLOCKED because the digest edit to ACTIVE had no raw
+evidence chain; the screenshot proves the archive exists but shows no restore
+field. Restored the full run to 153 COMPLETE / 355 INCOMPLETE / 10
+NOT_APPLICABLE. Kept the case_06 recovery, where account_006 is derived from
+search_documents_primary.source_resource_id and the deletion claim has no
+readback. Added docs/FLIP_LEDGER.md, scripts/check_claims.py, and a frozen
+claims ledger in this entry. Historical entries above may contain superseded
+figures; this entry is the current record.
+
+Current claims:
+* Sample 32/32 statuses, 167/193 steps, 0 extra, 12/32 exact, 1033/1351
+  positional, 1002/1002 content fields, F1 0.928.
+* Full 153 COMPLETE / 355 INCOMPLETE / 10 NOT_APPLICABLE; validator 0 errors.
+* Negative controls 15/15; intent probes 140/140 (regression tests, first run
+  75/140).
+* Omitted 26 slots: 17 account, 7 analytics, 2 audit; 281 unattributed facts.
+* Output SHA-256 93eb70b7f428ddb1487fe379f5329ff964129c85a769483e6094cf29faa9891c.
+
+Actions:
+* reverted evidence_32 state to BLOCKED and regenerated output.csv
+* added docs/FLIP_LEDGER.md and scripts/check_claims.py
+* updated README, code/README.md and docs/DECISIONS.md numbers
+* ran sample gate, validator, 15/15 negative controls and claims check
+
+Context:
+tool=Hermes Agent
+model=deepseek-v4.1-flash
+branch=master
+repo_root=/home/lakshaya/projects/orchestrate-solution
+worktree=main
+parent_agent=none

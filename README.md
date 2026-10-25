@@ -115,14 +115,15 @@ The repository includes four checks.
 | Public sample | `python3 code/main.py --sample && python3 analysis/compare.py` | 32/32 statuses, 167/193 steps, 0 extra steps, F1 0.928 |
 | Contract | `python3 code/evaluation/main.py` | 518 rows, 0 validator errors |
 | Negative controls | `python3 analysis/test_eval_negative.py` | 15/15 illegal outputs caught |
+| Claims check | `python3 scripts/check_claims.py` | no retracted phrases; headline numbers match a fresh run |
 | Activity coverage | `python3 analysis/activity_coverage.py` | 82/82 sync, 83/83 data-flow, 25/25 restore covered |
 | Package gate | `python3 scripts/verify_package.py` | clean extraction passes every check |
 | Intent probes | `python3 analysis/test_intent.py` | 140/140 self-authored probes |
 
-The full run gives 152 COMPLETE, 356 INCOMPLETE and 10 NOT_APPLICABLE.
+The full run gives 153 COMPLETE, 355 INCOMPLETE and 10 NOT_APPLICABLE.
 
 The output is deterministic. Two runs give the same SHA-256:
-`be792f801a96a9fbd67eb12fe63e290bdb54bc8f51f13f3e497dcd236115a63b`.
+`93eb70b7f428ddb1487fe379f5329ff964129c85a769483e6094cf29faa9891c`.
 
 Two independent checks support the evidence parsers:
 
@@ -143,8 +144,9 @@ Two cases have a known evidence conflict:
 
 - `case_63`: the image shows one owner. A catalog link 7 minutes later shows a
   different owner. The agent keeps the resource link and reports the conflict.
-- `case_55`: the backup console shows no restore policy. The agent reads the
-  backup as a restore risk. The image does not state this directly.
+- `case_55`: the backup console shows an archive but no restore field. The
+  engine defaults to `BLOCKED` and emits `VERIFY_RESTORE_BLOCKED`; the image
+  does not prove the block. This is a policy default, not an observation.
 
 These limits are recorded in `docs/DECISIONS.md`. The agent does not invent data
 to remove them.

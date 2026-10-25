@@ -33,6 +33,9 @@ python3 analysis/compare.py
 # Validator negative controls
 python3 analysis/test_eval_negative.py
 
+# Claims check: no retracted phrases; numbers match a fresh run
+python3 scripts/check_claims.py
+
 # Sync/restore activity coverage
 python3 analysis/activity_coverage.py
 
@@ -76,7 +79,7 @@ validator fails.
 
 - Sample: 32/32 statuses, 167/193 steps, 0 extra, 12/32 exact sequences.
 - Fields: 1033/1351 positional; 1002/1002 content fields on emitted steps.
-- Full run: 152 COMPLETE / 356 INCOMPLETE / 10 NOT_APPLICABLE; 0 validator errors.
+- Full run: 153 COMPLETE / 355 INCOMPLETE / 10 NOT_APPLICABLE; 0 validator errors.
 - 0 model calls, 0 tokens, $0.
 
 See `evaluation/evaluation_report.md` and `evaluation/usage_report.md`.

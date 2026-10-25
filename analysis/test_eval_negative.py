@@ -42,18 +42,18 @@ checks.append(bool(rep.errors))
 # B. status/step invariants
 checks.append(expect("B1 COMPLETE with []", with_steps("case_57", [], "COMPLETE")))
 checks.append(expect("B2 N/A with steps", with_steps("case_533", steps("case_57"), "NOT_APPLICABLE")))
-s=[x for x in steps("case_55") if x["phase"]=="VERIFICATION"]
-checks.append(expect("B3 INCOMPLETE without findings", with_steps("case_55", s, "INCOMPLETE")))
+s=[x for x in steps("case_33") if x["phase"]=="VERIFICATION"]
+checks.append(expect("B3 INCOMPLETE without findings", with_steps("case_33", s, "INCOMPLETE")))
 bad=[dict(r) for r in base]; bad[0]["deletion_status"]="BANANA"; checks.append(expect("B4 bad status", bad))
 # C. numbering / order
-s=steps("case_55"); s[1]["step_no"]=4; checks.append(expect("C1 non-consecutive step_no", with_steps("case_55", s, "INCOMPLETE")))
-s=steps("case_55"); s[0]["phase"],s[1]["phase"]=s[1]["phase"],s[0]["phase"]; checks.append(expect("C2 phase order", with_steps("case_55", s, "INCOMPLETE")))
-s=steps("case_55")+[{"step_no":4,"phase":"VERIFICATION","system_id":"aaa_service","resource_id":"audit_record_1","operation":"VERIFY_RECORD_PRESENT","state":"PRESENT","evidence_id":""}]; checks.append(expect("C3 tie-break order", with_steps("case_55", s, "INCOMPLETE")))
+s=steps("case_33"); s[1]["step_no"]=4; checks.append(expect("C1 non-consecutive step_no", with_steps("case_33", s, "INCOMPLETE")))
+s=steps("case_33"); s[0]["phase"],s[1]["phase"]=s[1]["phase"],s[0]["phase"]; checks.append(expect("C2 phase order", with_steps("case_33", s, "INCOMPLETE")))
+s=steps("case_33")+[{"step_no":4,"phase":"VERIFICATION","system_id":"aaa_service","resource_id":"audit_record_1","operation":"VERIFY_RECORD_ABSENT","state":"ABSENT","evidence_id":""}]; checks.append(expect("C3 tie-break order", with_steps("case_33", s, "INCOMPLETE")))
 # D. provenance / time
-s=steps("case_55"); s[2]["evidence_id"]="evidence_32"; checks.append(expect("D1 future step cites evidence", with_steps("case_55", s, "INCOMPLETE")))
+s=steps("case_33"); s[2]["evidence_id"]="evidence_32"; checks.append(expect("D1 future step cites evidence", with_steps("case_33", s, "INCOMPLETE")))
 s=steps("case_57"); s[0]["evidence_id"]="evidence_94"; checks.append(expect("D2 post-audit evidence", with_steps("case_57", s, "COMPLETE")))
-s=steps("case_55"); s[0]["evidence_id"]="activity_4006"; checks.append(expect("D3 valid activity citation", with_steps("case_55", s, "INCOMPLETE"), ok_if_error=False))
-s=steps("case_55"); s[0]["evidence_id"]="activity_9999"; checks.append(expect("D4 unknown activity citation", with_steps("case_55", s, "INCOMPLETE")))
-s=steps("case_55"); s[0]["evidence_id"]="activity_3387"; checks.append(expect("D5 post-audit activity", with_steps("case_55", s, "INCOMPLETE")))
+s=steps("case_33"); s[0]["evidence_id"]="activity_4006"; checks.append(expect("D3 valid activity citation", with_steps("case_33", s, "INCOMPLETE"), ok_if_error=False))
+s=steps("case_33"); s[0]["evidence_id"]="activity_9999"; checks.append(expect("D4 unknown activity citation", with_steps("case_33", s, "INCOMPLETE")))
+s=steps("case_33"); s[0]["evidence_id"]="activity_3387"; checks.append(expect("D5 post-audit activity", with_steps("case_33", s, "INCOMPLETE")))
 print(f"\n{sum(checks)}/{len(checks)} negative controls caught")
 sys.exit(0 if all(checks) else 1)

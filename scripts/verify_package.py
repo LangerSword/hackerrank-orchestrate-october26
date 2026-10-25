@@ -34,7 +34,9 @@ def package_files() -> list[Path]:
         Path("analysis/activity_coverage.py"),
         Path("scripts/fetch_dataset.sh"),
         Path("scripts/verify_package.py"),
+        Path("scripts/check_claims.py"),
     ]
+    files += sorted(Path("docs").glob("*.md"))
     return files
 
 
@@ -97,6 +99,7 @@ def main() -> int:
         run(["./scripts/fetch_dataset.sh"], work, "dataset/ already present")
         run([sys.executable, "code/evaluation/main.py"], work,
             "sample status 32/32")
+        run([sys.executable, "scripts/check_claims.py"], work, "CLAIMS OK")
         run([sys.executable, "analysis/compare.py"], work, "status 32/32")
         run([sys.executable, "analysis/test_eval_negative.py"], work, "15/15")
         run([sys.executable, "analysis/test_intent.py"], work, "140/140")

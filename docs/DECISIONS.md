@@ -5,15 +5,17 @@ Interview-ready record: rule, alternative rejected, measurement.
 ## D1. Reported status is never evidence
 `reported_status` and activity `SUCCESS` are claims. Verdicts come from
 observations with their own timestamp ≤ `audit_at`.
-Measured: 163 reported-COMPLETE cases are INCOMPLETE here; 26 reported-
+Measured: 163 reported-COMPLETE cases are INCOMPLETE here; 25 reported-
 NOT_STARTED are COMPLETE. Alternative (trust the workflow) would collapse the
 challenge.
 
 ## D2. Abstain on unidentifiable resources
-27 sample verification slots (18 deleted accounts, 7 anonymised analytics,
+26 sample verification slots (17 deleted accounts, 7 anonymised analytics,
 2 retained audit records) have no identifier anywhere in participant data.
-Best activity guesser: 43.8% (14/32); exact-match F1 is 0.925, break-even
+Best activity guesser: 43.8% (14/32); exact-step F1 is 0.928, break-even
 46.3%. Unique-candidate cases: 0/32. Therefore omit, never guess.
+The 46.3% is the exact-step threshold; under index-aligned scoring the
+threshold is lower because omission shifts later steps (see docs/BREAKEVEN.md).
 Rejected: nearest-activity assignment, empty resource ids, hardcoded ids.
 
 ## D3. Two-phase ownership
@@ -44,8 +46,9 @@ timestamp, or citation.
 
 ## D7. Intent: deletion requires a delete stem or a confirm-gone pattern
 Default-to-delete was removed after the probe set: 0/518 texts lack a delete
-stem, so tightening cost nothing. 140/140 probes across 7 languages after
-fixes. Rejected: "no delete word means non-deletion" alone, which misreads
+stem, so tightening cost nothing. Probes were 75/140 on the first run, then
+tuned to 140/140 across 7 languages; they are regression tests, not accuracy
+evidence. Rejected: "no delete word means non-deletion" alone, which misreads
 follow-ups ("confirm the profile is gone").
 
 ## D8. One evidence citation per case
