@@ -65,11 +65,8 @@ md.append('| case | step | phase | operation | system | gold resource | gold evi
 md.append('|---|---:|---|---|---|---|---|---|---:|---:|')
 for r in rows:
     md.append(f'| {r[0]} | {r[1]} | {r[2]} | {r[3]} | {r[4]} | `{r[5]}` | {r[6]} | {r[7]} | {r[8]} | {r[9]} |')
-md.append(f'\nTotal: {len(rows)} — 18 account `VERIFY_RECORD_ABSENT`, 7 `VERIFY_RECORD_ANONYMIZED`, 2 `VERIFY_RECORD_PRESENT`. Only **1 of 27** is same-record recoverable: `case_06 account_006` appears in
-`search_documents_primary` next to `search_001` and `jonas.berg@outlook.com`
-(`source_resource_id`). The other 26 carry no same-line subject tie; the 2
-audit ids appear nowhere. Naming is opaque (`account_5521`, `analytics_4566`),
-not derivable from user/email.\n')
+md.append(f'\nTotal: {len(rows)} — 18 account `VERIFY_RECORD_ABSENT`, 7 `VERIFY_RECORD_ANONYMIZED`, 2 `VERIFY_RECORD_PRESENT`.')
+md.append('Only **1 of 27** is same-record recoverable: `case_06 account_006` appears in `search_documents_primary` next to `search_001` and `jonas.berg@outlook.com` (`source_resource_id`). The other 26 carry no same-line subject tie; the 2 audit ids appear nowhere. Naming is opaque (`account_5521`, `analytics_4566`), not derivable from user/email.\n')
 md.append('## 4. Remaining PNG vision results\n')
 md.append('- `evidence_23` (case_33/52): `export_1260`, owner `ingrid.dahl@outlook.com`, status `Ready`, created 18 Jun 06:42, expires **25 Jun 2026**. `export_1842` not shown. Digest matches; the export expires before case_33 audit (19 Jul) and expiry is not modelled.\n')
 md.append('- `evidence_04` (case_34): `user_11 · account_5762`, Haruka Sato, `haruka.s1838@zoho.com`, `+81 90 7610 2507`, full profile. Digest matches. Image also shows `Support: CS-8538 · support_9538`, which the digest omits (possible missing support step; status already INCOMPLETE).\n')

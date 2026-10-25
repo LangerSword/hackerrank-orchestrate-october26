@@ -45,10 +45,10 @@ All are VERIFICATION steps. `raw evidence` counts files under `dataset/evidence`
 |---|---:|---|---|---|---|---|---|---:|---:|
 | case_01 | 1 | VERIFICATION | VERIFY_RECORD_ABSENT | account_service | `account_001` | evidence_54 | activity only, no identifier | 0 | 1 |
 | case_02 | 1 | VERIFICATION | VERIFY_RECORD_ABSENT | account_service | `account_002` | evidence_54 | activity only, no identifier | 0 | 1 |
-| case_03 | 3 | VERIFICATION | VERIFY_RECORD_ANONYMIZED | analytics_platform | `analytics_9406` | evidence_94 | evidence line with subject email | 1 | 1 |
+| case_03 | 3 | VERIFICATION | VERIFY_RECORD_ANONYMIZED | analytics_platform | `analytics_9406` | evidence_94 | evidence + activity, no subject tie | 1 | 1 |
 | case_04 | 1 | VERIFICATION | VERIFY_RECORD_ABSENT | account_service | `account_004` | evidence_54 | id absent from all participant files | 0 | 0 |
 | case_04 | 2 | VERIFICATION | VERIFY_RECORD_ANONYMIZED | analytics_platform | `analytics_901` | evidence_56 | evidence + activity, no subject tie | 1 | 1 |
-| case_06 | 3 | VERIFICATION | VERIFY_RECORD_ABSENT | account_service | `account_006` | - | evidence line with subject email | 1 | 1 |
+| case_06 | 3 | VERIFICATION | VERIFY_RECORD_ABSENT | account_service | `account_006` | - | same-line subject tie (recoverable) | 1 | 1 |
 | case_07 | 3 | VERIFICATION | VERIFY_RECORD_ABSENT | account_service | `account_007` | - | activity only, no identifier | 0 | 1 |
 | case_08 | 3 | VERIFICATION | VERIFY_RECORD_ABSENT | account_service | `account_008` | - | activity only, no identifier | 0 | 1 |
 | case_10 | 3 | VERIFICATION | VERIFY_RECORD_ABSENT | account_service | `account_010` | - | activity only, no identifier | 0 | 1 |
@@ -62,8 +62,8 @@ All are VERIFICATION steps. `raw evidence` counts files under `dataset/evidence`
 | case_23 | 5 | VERIFICATION | VERIFY_RECORD_ABSENT | account_service | `account_410` | - | activity only, no identifier | 0 | 1 |
 | case_25 | 1 | VERIFICATION | VERIFY_RECORD_ABSENT | account_service | `account_3136` | evidence_92 | evidence + activity, no subject tie | 1 | 1 |
 | case_25 | 3 | VERIFICATION | VERIFY_RECORD_ANONYMIZED | analytics_platform | `analytics_1895` | evidence_92 | evidence + activity, no subject tie | 2 | 1 |
-| case_26 | 4 | VERIFICATION | VERIFY_RECORD_ANONYMIZED | analytics_platform | `analytics_4566` | evidence_92 | evidence line with subject email | 2 | 1 |
-| case_27 | 4 | VERIFICATION | VERIFY_RECORD_ANONYMIZED | analytics_platform | `analytics_4574` | evidence_92 | evidence line with subject email | 2 | 1 |
+| case_26 | 4 | VERIFICATION | VERIFY_RECORD_ANONYMIZED | analytics_platform | `analytics_4566` | evidence_92 | evidence + activity, no subject tie | 2 | 1 |
+| case_27 | 4 | VERIFICATION | VERIFY_RECORD_ANONYMIZED | analytics_platform | `analytics_4574` | evidence_92 | evidence + activity, no subject tie | 2 | 1 |
 | case_28 | 1 | VERIFICATION | VERIFY_RECORD_ABSENT | account_service | `account_5482` | evidence_92 | evidence + activity, no subject tie | 1 | 1 |
 | case_28 | 4 | VERIFICATION | VERIFY_RECORD_ANONYMIZED | analytics_platform | `analytics_6077` | evidence_92 | evidence + activity, no subject tie | 2 | 1 |
 | case_29 | 9 | VERIFICATION | VERIFY_RECORD_ABSENT | account_service | `account_7012` | - | activity only, no identifier | 0 | 1 |
@@ -71,7 +71,8 @@ All are VERIFICATION steps. `raw evidence` counts files under `dataset/evidence`
 | case_31 | 1 | VERIFICATION | VERIFY_RECORD_ABSENT | account_service | `account_4857` | evidence_51 | activity only, no identifier | 0 | 1 |
 | case_32 | 3 | VERIFICATION | VERIFY_RECORD_ABSENT | account_service | `account_8858` | - | activity only, no identifier | 0 | 1 |
 
-Total: 27 — 18 account `VERIFY_RECORD_ABSENT`, 7 `VERIFY_RECORD_ANONYMIZED`, 2 `VERIFY_RECORD_PRESENT`. No id carries a subject tie in raw evidence; the 2 audit ids appear nowhere. Naming is opaque (`account_5521`, `analytics_4566`), not derivable from user/email.
+Total: 27 — 18 account `VERIFY_RECORD_ABSENT`, 7 `VERIFY_RECORD_ANONYMIZED`, 2 `VERIFY_RECORD_PRESENT`.
+Only **1 of 27** is same-record recoverable: `case_06 account_006` appears in `search_documents_primary` next to `search_001` and `jonas.berg@outlook.com` (`source_resource_id`). The other 26 carry no same-line subject tie; the 2 audit ids appear nowhere. Naming is opaque (`account_5521`, `analytics_4566`), not derivable from user/email.
 
 ## 4. Remaining PNG vision results
 
