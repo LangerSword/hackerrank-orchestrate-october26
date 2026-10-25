@@ -70,11 +70,26 @@ def validate_submission(output_csv: Path, requests_csv: Path,
         requests = {row["case_id"]: row for row in csv.DictReader(handle)}
 
     captured: dict[str, datetime] = {}
+    activity_at: dict[str, datetime] = {}
+    audit_at_map: dict[str, datetime] = {}
     if evidence_csv and evidence_csv.exists():
         with evidence_csv.open(newline="", encoding="utf-8") as handle:
             from .model import parse_ts
             for row in csv.DictReader(handle):
                 captured[row["file_id"]] = parse_ts(row["captured_at"])
+    dataset_dir = requests_csv.parent
+    activity_csv = dataset_dir / "system_activity.csv"
+    if activity_csv.exists():
+        with activity_csv.open(newline="", encoding="utf-8") as handle:
+            from .model import parse_ts
+            for row in csv.DictReader(handle):
+                activity_at[row["activity_id"]] = parse_ts(row["event_time"])
+    audit_log_csv = dataset_dir / "user_audit_log.csv"
+    if audit_log_csv.exists():
+        with audit_log_csv.open(newline="", encoding="utf-8") as handle:
+            from .model import parse_ts
+            for row in csv.DictReader(handle):
+                audit_at_map[row["audit_id"]] = parse_ts(row["event_time"])
 
     if len(rows) != len(requests):
         report.errors.append(f"{len(rows)} rows for {len(requests)} requests")
@@ -90,9 +105,10 @@ def validate_submission(output_csv: Path, requests_csv: Path,
             report.errors.append(f"{case_id}: unknown case")
             continue
         status = row["deletion_status"]
-        statuses[status] = statuses.get(status, 0) + 1
         if status not in statuses:
             report.errors.append(f"{case_id}: bad status {status}")
+        else:
+            statuses[status] += 1
         try:
             steps = json.loads(row["steps_json"])
         except json.JSONDecodeError as exc:
@@ -144,9 +160,14 @@ def validate_submission(output_csv: Path, requests_csv: Path,
             if status == "INCOMPLETE" and phase in {"REMEDIATION", "VERIFICATION"} and evidence_id:
                 report.errors.append(f"{case_id}: future step {index} cites evidence")
             if evidence_id:
-                if evidence_id not in captured:
+                cited_at = captured.get(evidence_id)
+                if cited_at is None:
+                    cited_at = activity_at.get(evidence_id)
+                if cited_at is None:
+                    cited_at = audit_at_map.get(evidence_id)
+                if cited_at is None:
                     report.errors.append(f"{case_id}: unknown evidence {evidence_id}")
-                elif audit_at and captured[evidence_id] > audit_at:
+                elif audit_at and cited_at > audit_at:
                     report.errors.append(f"{case_id}: cites post-audit evidence {evidence_id}")
         if status == "COMPLETE" and has_finding:
             report.errors.append(f"{case_id}: COMPLETE with findings")

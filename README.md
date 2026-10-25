@@ -114,7 +114,7 @@ The repository includes four checks.
 |---|---|---|
 | Public sample | `python3 code/main.py --sample && python3 analysis/compare.py` | 32/32 statuses, 167/193 steps, 0 extra steps, F1 0.928 |
 | Contract | `python3 code/evaluation/main.py` | 518 rows, 0 validator errors |
-| Negative controls | `python3 analysis/test_eval_negative.py` | 12/12 illegal outputs caught |
+| Negative controls | `python3 analysis/test_eval_negative.py` | 15/15 illegal outputs caught |
 | Activity coverage | `python3 analysis/activity_coverage.py` | 82/82 sync, 83/83 data-flow, 25/25 restore covered |
 | Package gate | `python3 scripts/verify_package.py` | clean extraction passes every check |
 | Intent probes | `python3 analysis/test_intent.py` | 140/140 self-authored probes |

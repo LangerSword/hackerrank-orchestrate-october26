@@ -11,6 +11,8 @@ zero model calls.
 - Enumeration audits (not sampling): loose identifier scan over 79 text
   evidence files, line-level state oracle over 959 lines and 761 JSON records,
   independent sqlite oracle over 66 SQL-only COMPLETE cases, 14 mutations.
+  Validator negative controls: 15/15, including invalid status, unknown
+  activity, and post-audit activity citations.
 - The sample contains no NOT_APPLICABLE case; intent has no label coverage.
 
 ## Metrics (32 public samples)

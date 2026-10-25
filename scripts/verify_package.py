@@ -98,7 +98,7 @@ def main() -> int:
         run([sys.executable, "code/evaluation/main.py"], work,
             "sample status 32/32")
         run([sys.executable, "analysis/compare.py"], work, "status 32/32")
-        run([sys.executable, "analysis/test_eval_negative.py"], work, "12/12")
+        run([sys.executable, "analysis/test_eval_negative.py"], work, "15/15")
         run([sys.executable, "analysis/test_intent.py"], work, "140/140")
         run([sys.executable, "analysis/activity_coverage.py"], work, "missed")
 
