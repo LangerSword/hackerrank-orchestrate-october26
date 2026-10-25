@@ -33,6 +33,9 @@ python3 analysis/compare.py
 # Validator negative controls
 python3 analysis/test_eval_negative.py
 
+# Sync/restore activity coverage
+python3 analysis/activity_coverage.py
+
 # Intent probes
 python3 analysis/test_intent.py
 ```
