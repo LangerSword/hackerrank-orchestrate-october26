@@ -8,3 +8,247 @@ Worktree: main
 Parent Agent: none
 Language: py
 Time Remaining: not configured
+
+## [2026-10-25T04:30:00+05:30] Supervision brief round 3 and enumeration audit
+
+User Prompt (verbatim, secrets redacted):
+[Supervision brief from Claude: phased audit of the Ghost Data agent — Phase 0
+premises, Phase 1 loose scan/conflicts, Phase 2 parser provenance, Phase 3
+state edges, Phase 4 sqlite oracle, Phase 5 intent probes, Phase 8 innovation,
+plus a reporting format and stop conditions.]
+
+Agent Response Summary:
+Executed every phase. Corrected the sample-subset premise (0/32 sample ids in
+the 518), ran loose identifier and cross-subject scans (0 shared identifiers,
+0 cross-subject lines), reviewed the token-level parser-gap counter, measured
+state edges (0 ties, 0 true replica drift, 1 fallback case, 1141 observations
+at audit_at), built an independent sqlite oracle for the 66 SQL-only COMPLETE
+cases (0 disagreements; 44 unvalidated step shapes flagged), and rebuilt the
+intent classifier until 140/140 adversarial probes passed across seven
+languages with the visible corpus unchanged. Wrote docs/AUDIT_ROUND3.md and
+docs/DECISIONS.md, downgraded overconfident wording, and re-ran the sample gate.
+
+Actions:
+* created analysis/export_subjects.py, idscan.py, sweep.py, conflicts.py,
+  sql_oracle.py, test_intent.py
+* edited code/audit/intent.py (stems, negation, conditional, CJK)
+* ran python3 code/main.py --sample; analysis/compare.py; code/main.py
+* wrote docs/AUDIT_ROUND3.md, docs/DECISIONS.md
+
+Context:
+tool=Hermes Agent
+model=deepseek-v4.1-flash
+branch=build/audit-agent
+repo_root=/home/lakshaya/projects/hackerrank-orchestrate-october26
+worktree=main
+parent_agent=none
+
+## [2026-10-25T05:40:00+05:30] Round 4 supervision: state oracle, mutations, shape audit
+
+User Prompt (verbatim, secrets redacted):
+[Round 4 brief: Phase 6 independent state oracle for non-SQL files and
+line-level provenance; Phase 7 mutation testing; Phase 8 claim-vs-evidence
+structure; Phase 9 audit-record shape; Phase 10 close-outs.]
+
+Agent Response Summary:
+Added line-level provenance to log and handover parsers, built an independent
+state oracle over 959 lines and 761 JSON records, and reached 0 disagreements
+after fixing three oracle bugs. Mutation-tested 14 rules: intent is the only
+unvalidated rule with status exposure (10 eval flips, 0 sample); phone,
+catalog-link, empty-snapshot and citation-coverage rules are inert on this
+corpus; backup and flow are sample-exercised. Established that the sample has
+no NOT_APPLICABLE case, that the no-profile/account-step iff is false (14/32,
+18 exceptions), and that 66 SQL PRESENT steps have no sample analogue.
+Corrected D1 (25→26), D7, and the token-level "0 presence-only" claim.
+
+Actions:
+* edited code/audit/evidence.py (line numbers for logs and handover)
+* created analysis/state_oracle.py, dump_facts.py, mutations.py
+* wrote docs/AUDIT_ROUND4.md; patched DECISIONS.md and README.md
+* ran code/main.py --sample; analysis/compare.py; mutations.py; state_oracle.py
+
+Context:
+tool=Hermes Agent
+model=deepseek-v4.1-flash
+branch=build/audit-agent
+repo_root=/home/lakshaya/projects/hackerrank-orchestrate-october26
+worktree=main
+parent_agent=none
+
+## [2026-10-25T06:35:00+05:30] Round 5 supervision: vocabulary census, counters, recall
+
+User Prompt (verbatim, secrets redacted):
+[Round 5 brief: Phase 11 state-vocabulary census and soft deletes; Phase 12
+mutation counters and flip review; Phase 13 oracle arbitration; Phase 14
+audit-record shape and expected recall; Phase 15 close-outs and freeze rule.]
+
+Agent Response Summary:
+Censused every state-bearing key across JSON/SQL/log/CSV/handover; found 0
+soft-deleted rows treated as absent and no backtrack trigger. Counters show
+phone, catalog-link, empty-snapshot and citation rules are inert (1, 1, 30, 0
+branch runs; 0 verdict changes). Enumerated all 57 status-flip cases from four
+mutations with their deciding finding and evidence. Established every sample
+case 11-32 carries an account verification, implying 279 omitted account slots
+on the eval and an upper-bound recall of 0.889. Wrote evaluation and usage
+reports, corrected the field denominator (1024/1351, 75.8%), and completed
+submission hygiene checks.
+
+Actions:
+* created analysis/vocab_census.py, mutation_detail.py
+* created code/evaluation/evaluation_report.md, usage_report.md, main.py
+* wrote docs/AUDIT_ROUND5.md; patched docs/DECISIONS.md
+* ran analysis/vocab_census.py, mutation_detail.py, code/evaluation/main.py
+
+Context:
+tool=Hermes Agent
+model=deepseek-v4.1-flash
+branch=build/audit-agent
+repo_root=/home/lakshaya/projects/hackerrank-orchestrate-october26
+worktree=main
+parent_agent=none
+
+## [2026-10-25T07:30:00+05:30] Round 6 supervision: field diff, events, time keys
+
+User Prompt (verbatim, secrets redacted):
+[Round 6 brief: Phase 16 explain 138 field mismatches; Phase 17 33
+security_audit_events steps; Phase 18 time-based keys; Phase 19 numbering and
+matching; Phase 20 flip dump; Phase 21 close-outs.]
+
+Agent Response Summary:
+Content-aligned the sample steps: all fields match except step_no (40), which
+shifts because of the 27 omitted slots; evidence ids have 0 mismatches. The
+sample validates events-type audit rows via case_31's bundle, so the 33
+security_audit_events PRESENT steps are kept, retracting the "likely extras"
+claim. Time keys are only exercised on the live/retained side; expired-export
+and expired-retention sides are unexercised. Produced a 57-entry raw flip dump
+for review. No code change, no status flip.
+
+Actions:
+* created analysis/flip_dump.py and analysis/flip_dump.md
+* wrote docs/AUDIT_ROUND6.md; patched DECISIONS.md and README.md
+* ran content-alignment diff, event-source trace, time-key cross-tab
+
+Context:
+tool=Hermes Agent
+model=deepseek-v4.1-flash
+branch=build/audit-agent
+repo_root=/home/lakshaya/projects/hackerrank-orchestrate-october26
+worktree=main
+parent_agent=none
+
+## [2026-10-25T08:20:00+05:30] Round 7 final audit: full flip dump and parser exposure
+
+User Prompt (verbatim, secrets redacted):
+[Round 7 brief: re-dump 57 flips with full records/identifiers/times/OCR;
+parser-path exposure table; finish expiry enumeration; hygiene; freeze.]
+
+Agent Response Summary:
+Produced flip_dump_v2 with full JSON/SQL/log records, tie identifiers, times
+and PNG digest+OCR. Built the parser-path exposure table: 191/518 eval cases
+have a status decided solely by a path with zero sample exposure, led by
+operational_record_history 46, manifest 38, record_lookup 36. Confirmed the
+SQL restore_allowed/enabled columns by name, kept restore_candidate_evaluated
+and message_pii_scan (sample 2/2 and 1/1), and found 0 expired export or
+retention rows. No behaviour changed; sample 32/32.
+
+Actions:
+* created analysis/flip_dump_v2.py, analysis/parser_exposure.py
+* wrote docs/AUDIT_ROUND7.md; patched DECISIONS.md and README.md
+* ran parser_exposure.py, flip_dump_v2.py, hygiene grep
+
+Context:
+tool=Hermes Agent
+model=deepseek-v4.1-flash
+branch=build/audit-agent
+repo_root=/home/lakshaya/projects/hackerrank-orchestrate-october26
+worktree=main
+parent_agent=none
+
+## [2026-10-25T09:05:00+05:30] Round 8: digest fidelity, pair exposure, provenance
+
+User Prompt (verbatim, secrets redacted):
+[Round 8 brief: literal OCR check of all digest entries and vision review of
+PNGs, pair-level parser exposure, staleness of FOUND rows, started/completed
+provenance, and retraction of the OCR claim.]
+
+Agent Response Summary:
+Checked all 13 digest entries: 7 fail a literal OCR check. Vision confirmed
+case_39 (data_flow_1121 / jain.aditi / Continuous) and case_35 (search_428 /
+user_13), retracting the OCR-legibility claim; evidence_46 shows the attachment
+file but not object_19 or priya, so its digest entry overstates the image.
+Pair-level exposure shows only case_63 rests on an unexposed (category, state)
+pair. All 268 FOUND-type rows are inside the window. Confirmed fact provenance
+is the completed log line; the dump was printing the first occurrence, now
+fixed. No behaviour change; sample 32/32.
+
+Actions:
+* created analysis/round8_checks.py; patched analysis/flip_dump_v2.py
+* wrote docs/AUDIT_ROUND8.md; retracted the OCR claim in AUDIT_ROUND7.md
+* ran round8_checks.py and regenerated flip_dump_v2.md
+
+Context:
+tool=Hermes Agent
+model=deepseek-v4.1-flash
+branch=build/audit-agent
+repo_root=/home/lakshaya/projects/hackerrank-orchestrate-october26
+worktree=main
+parent_agent=none
+
+## [2026-10-25T10:15:00+05:30] Round 11b: export_1842 applied and final tag
+
+User Prompt (verbatim, secrets redacted):
+[Architect decision: apply evidence_18/export_1842 for case_33, verify all
+LINK_RESOURCE_IDENTITY rows are matched, re-run the gate, update the tag and
+artifacts.]
+
+Agent Response Summary:
+Confirmed 11/12 LINK rows already had digest entries; export_1842 was the only
+gap. Added evidence_18 as export_1842 PRESENT. case_33 now cites export_1842
+(evidence_18), case_52 stays export_1260 (evidence_23); statuses unchanged.
+Sample 32/32, 167/193; full 152/356/10; validator 0. Re-tagged
+v1.0-orchestrate.
+
+Actions:
+* edited code/audit/digests/documents.json (evidence_18)
+* ran code/main.py, analysis/compare.py, validator
+* updated docs/AUDIT_ROUND11.md and DECISIONS.md
+
+Context:
+tool=Hermes Agent
+model=deepseek-v4.1-flash
+branch=build/audit-agent
+repo_root=/home/lakshaya/projects/hackerrank-orchestrate-october26
+worktree=main
+parent_agent=none
+
+## [2026-10-25T11:15:00+05:30] Final audit rounds, GitHub cleanup, submission packaging
+
+User Prompt (verbatim, secrets redacted):
+[Round 12 and 13 read-only audits of case_63 and case_55; then clean the
+GitHub repository, rewrite the README in Simplified Technical English with a
+Mermaid architecture diagram and a verification summary, make a fresh commit,
+and start the submission compression.]
+
+Agent Response Summary:
+Confirmed both cases are unresolved conflicts, not confirmed defects. The
+three case_63 variants (original, no identifiers, screenshot identity) produce
+identical output because lifetime ownership comes from activity_4008. Rewrote
+all commit authorship to the correct GitHub noreply identity, then moved the
+old history to a private archive and recreated the public repository so the
+contributor list is clean. README rewritten in short-sentence English with a
+Mermaid flow and reproducible verification commands. Built code.zip from the
+tagged tree.
+
+Actions:
+* rewrote git author/committer identity; recreated public repo and tag
+* removed audit scratch scripts and audit-round docs
+* rewrote README.md; kept code/, evaluation reports, output.csv, log.txt
+* built code.zip (README.md + code/, 17 files)
+
+Context:
+tool=Hermes Agent
+model=deepseek-v4.1-flash
+branch=build/audit-agent
+repo_root=/home/lakshaya/projects/hackerrank-orchestrate-october26
+worktree=main
+parent_agent=none
