@@ -36,6 +36,9 @@ python3 analysis/test_eval_negative.py
 # Sync/restore activity coverage
 python3 analysis/activity_coverage.py
 
+# Package gate: build zip, extract clean, run every check
+python3 scripts/verify_package.py
+
 # Intent probes
 python3 analysis/test_intent.py
 ```

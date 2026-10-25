@@ -116,6 +116,7 @@ The repository includes four checks.
 | Contract | `python3 code/evaluation/main.py` | 518 rows, 0 validator errors |
 | Negative controls | `python3 analysis/test_eval_negative.py` | 12/12 illegal outputs caught |
 | Activity coverage | `python3 analysis/activity_coverage.py` | 82/82 sync, 83/83 data-flow, 25/25 restore covered |
+| Package gate | `python3 scripts/verify_package.py` | clean extraction passes every check |
 | Intent probes | `python3 analysis/test_intent.py` | 140/140 self-authored probes |
 
 The full run gives 152 COMPLETE, 356 INCOMPLETE and 10 NOT_APPLICABLE.
