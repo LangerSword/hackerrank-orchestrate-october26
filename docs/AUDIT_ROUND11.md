@@ -18,12 +18,13 @@ number. Timelines:
   (before the request).
 - case_52: requested 06-16, audit 06-19 14:00. evidence_18 and activity_4009
   (07-18) are after its audit; they cannot be used.
-Simulated adding evidence_18 as `export_1842 PRESENT`: only **case_33** changes
-— its pre-request export_1260 fact is dropped by the request window (expired
-06-25, before the 07-18 request) and export_1842 replaces it, still 3 steps,
-status INCOMPLETE. Net step count unchanged, resource id changes. No sample case
-covers user_18, so this is unvalidated; **not applied**. Current output keeps
-export_1260.
+**Applied.** 11 of 12 `LINK_RESOURCE_IDENTITY` rows already had a digest
+entry; only `export_1842` was missing. Added `evidence_18` as
+`export_1842 PRESENT` (ingrid, user_18, observed 2026-07-18T11:00Z).
+Result: only **case_33** changes — export_1260 (pre-request, expired 06-25) is
+replaced by export_1842 with evidence_18, still 3 steps, status INCOMPLETE.
+**case_52 remains export_1260 / evidence_23.** Sample unchanged (32/32,
+167/193), full run 152/356/10, validator 0.
 
 ## 3A — evaluation entrypoint
 `code/evaluation/main.py` imports `csv, json, sys, pathlib` and

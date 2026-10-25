@@ -186,5 +186,18 @@
       "user_ref": "user_09",
       "observed_at": "2026-09-16T07:20:00Z"
     }
+  ],
+  "evidence_18": [
+    {
+      "system": "export_service",
+      "record_type": "USER_EXPORT",
+      "resource_id": "export_1842",
+      "state": "PRESENT",
+      "identifiers": [
+        "ingrid.dahl@outlook.com"
+      ],
+      "user_ref": "user_18",
+      "observed_at": "2026-07-18T11:00:00Z"
+    }
   ]
 }
