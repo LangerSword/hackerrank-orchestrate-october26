@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import csv
 import json
+import subprocess
 import sys
 from pathlib import Path
 
@@ -17,7 +18,21 @@ def rows(path: Path) -> dict:
         return {r["case_id"]: r for r in csv.DictReader(f)}
 
 
+def run(script: Path, *args: str) -> None:
+    subprocess.run([sys.executable, str(script), *args], check=True, cwd=ROOT)
+
+
 def main() -> int:
+    if not (ROOT / "dataset/deletion_requests.csv").exists():
+        print("dataset/ is missing. Put the official dataset at ./dataset "
+              "or run ./scripts/fetch_dataset.sh with network access.")
+        return 2
+
+    # Make the check reproducible from a clean extraction: regenerate both
+    # outputs before reading them. The full run is ~1.5 seconds.
+    run(ROOT / "code/main.py")
+    run(ROOT / "code/main.py", "--sample")
+
     gold = rows(ROOT / "dataset/sample_output.csv")
     pred = rows(ROOT / "analysis/sample_output.csv")
     status = seq = 0

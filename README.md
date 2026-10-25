@@ -12,11 +12,13 @@ not use the network. The result is deterministic.
 ```bash
 git clone https://github.com/LangerSword/hackerrank-orchestrate-october26.git
 cd hackerrank-orchestrate-october26
+# Put the official dataset at ./dataset, or fetch it if network is available:
 ./scripts/fetch_dataset.sh
 python3 code/main.py
 ```
 
-The command writes `output.csv` in the repository root.
+The command writes `output.csv` in the repository root. The code-only README
+with the module map is at `code/README.md`.
 
 To run the sample check:
 
@@ -30,6 +32,9 @@ To run the contract check:
 ```bash
 python3 code/evaluation/main.py
 ```
+
+This regenerates `output.csv` and `analysis/sample_output.csv` first, then runs
+the sample diff and the 518-row validator.
 
 Requirements: Python 3.10 or later. The runtime uses the standard library only.
 The dataset is not stored in this repository. `scripts/fetch_dataset.sh` gets
