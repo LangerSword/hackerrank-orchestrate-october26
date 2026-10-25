@@ -5,7 +5,7 @@ Interview-ready record: rule, alternative rejected, measurement.
 ## D1. Reported status is never evidence
 `reported_status` and activity `SUCCESS` are claims. Verdicts come from
 observations with their own timestamp ≤ `audit_at`.
-Measured: 163 reported-COMPLETE cases are INCOMPLETE here; 25 reported-
+Measured: 163 reported-COMPLETE cases are INCOMPLETE here; 26 reported-
 NOT_STARTED are COMPLETE. Alternative (trust the workflow) would collapse the
 challenge.
 

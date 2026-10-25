@@ -114,7 +114,7 @@
       "system": "backup_service",
       "record_type": "BACKUP_ARCHIVE",
       "resource_id": "backup_9287",
-      "state": "BLOCKED",
+      "state": "ACTIVE",
       "identifiers": [
         "areed1433@gmail.com"
       ],
