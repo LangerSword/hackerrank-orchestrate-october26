@@ -22,9 +22,10 @@
 Every verdict is a function of the supplied CSV/JSON/SQL/log/PDF artefacts:
 identity resolution, evidence parsing, point-in-time state, policy application,
 and step ordering. A model in this path could only introduce a hallucinated
-resource id, timestamp or citation, which the contract forbids. An optional
-LLM extraction hook exists only for facts (never verdicts) and is disabled by
-default; it was not used in the measured run.
+resource id, timestamp or citation, which the contract forbids. There is no
+model path in the runtime. A future extractor would be limited to candidate
+facts, with a content hash and a deterministic schema check; it would never set
+a verdict, timestamp or citation.
 
 ## Runtime shape
 

@@ -252,3 +252,30 @@ branch=build/audit-agent
 repo_root=/home/lakshaya/projects/hackerrank-orchestrate-october26
 worktree=main
 parent_agent=none
+
+## [2026-10-25T08:22:25+0530] Submission hardening: clean-extraction gate and activity coverage
+
+User Prompt (verbatim, secrets redacted):
+[User asked to account for any other submission fixes and perform them.]
+
+Agent Response Summary:
+Added a clean-extraction package gate that builds the zip, extracts it into an
+empty directory, and runs every README check. Added a sync/restore activity
+coverage audit for the 82 sync, 83 data-flow and 25 restore rows inside case
+windows. Corrected the usage report so it no longer claims an LLM hook that
+does not exist. Rebuilt the package and verified all checks from the extracted
+copy.
+
+Actions:
+* added scripts/verify_package.py and analysis/activity_coverage.py
+* edited code/evaluation/usage_report.md
+* ran python3 scripts/verify_package.py
+* rebuilt code-v2.zip
+
+Context:
+tool=Hermes Agent
+model=deepseek-v4.1-flash
+branch=master
+repo_root=/home/lakshaya/projects/orchestrate-solution
+worktree=main
+parent_agent=none
