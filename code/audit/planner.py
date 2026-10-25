@@ -134,6 +134,37 @@ def plan_steps(states: list[ResourceState], policy: Policy) -> tuple[str, list[S
     return status, findings + remediation + verification
 
 
+def add_linked_verifications(case, user_id, steps, index, claims):
+    """A linked account with a deletion claim and no readback gets a future
+    verification in an INCOMPLETE case. The claim is not proof; the step exists
+    because the state is unverified."""
+    if not steps or not any(s.phase == "FINDING" for s in steps):
+        return steps
+    known = {s.resource_id for s in steps}
+    linked = {}
+    for f in index.facts_for(user_id, case.audit_at):
+        acc = (f.detail or {}).get("source_resource_id")
+        if f.system == "search_service" and acc:
+            linked[acc] = f.observed_at
+    added = []
+    for acc, observed in linked.items():
+        if acc in known:
+            continue
+        times = claims.get(acc, [])
+        if not any(case.requested_at <= t <= case.audit_at for t in times):
+            continue
+        added.append(Step("VERIFICATION", "account_service", acc,
+                          "VERIFY_RECORD_ABSENT", ABSENT))
+    if not added:
+        return steps
+    out = list(steps) + added
+    out.sort(key=lambda s: (PHASES.index(s.phase),
+                            {"FINDING": FINDING_ORDER, "REMEDIATION": REMEDIATION_ORDER,
+                             "VERIFICATION": VERIFICATION_ORDER}[s.phase].get(s.operation, 99),
+                            s.system_id, s.resource_id))
+    return out
+
+
 def attach_evidence(
     states: list[ResourceState],
     steps: list[Step],

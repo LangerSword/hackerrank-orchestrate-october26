@@ -553,7 +553,8 @@ def _parse_sql(evidence: EvidenceFile, text: str) -> list[Fact]:
                                user_ref=str(row.get("customer_reference") or row.get("subject_reference") or ""),
                                source=table,
                                detail={"message_text": row.get("message_text")
-                                       or row.get("message_excerpt") or ""})
+                                       or row.get("message_excerpt") or "",
+                                       "source_resource_id": str(row.get("source_resource_id") or "")})
                 )
     finally:
         connection.close()
